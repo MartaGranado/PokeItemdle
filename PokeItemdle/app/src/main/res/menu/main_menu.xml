@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_login"
+        android:title="Login"
+        android:orderInCategory="100"
+        android:showAsAction="always" />
+    <item
+        android:id="@+id/action_register"
+        android:title="Registrar"
+        android:orderInCategory="101"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_logout"
+        android:title="Cerrar sesión"
+        android:orderInCategory="102"
+        android:visible="false"
+        app:showAsAction="never" />
+</menu>

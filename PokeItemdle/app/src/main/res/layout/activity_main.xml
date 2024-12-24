@@ -1,0 +1,111 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <!-- Contenido principal -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mainContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!-- Caja de intentos restantes -->
+                <TextView
+                    android:id="@+id/attemptsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Intentos restantes: 3"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/PruebaTextView"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- AutoCompleteTextView -->
+                <AutoCompleteTextView
+                    android:id="@+id/PruebaTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Selecciona un objeto"
+                    android:padding="10dp"
+                    android:background="@android:drawable/editbox_background_normal"
+                    app:layout_constraintTop_toBottomOf="@id/attemptsTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/fetchButton"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginHorizontal="24dp" />
+
+                <!-- Botón de buscar -->
+                <Button
+                    android:id="@+id/fetchButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Buscar"
+                    app:layout_constraintTop_toBottomOf="@id/PruebaTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/resultTextView"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- TextView para mostrar resultados -->
+                <TextView
+                    android:id="@+id/resultTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:padding="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/fetchButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/itemImageView"
+                    android:layout_marginHorizontal="24dp" />
+
+                <!-- ImageView para mostrar el sprite -->
+                <ImageView
+                    android:id="@+id/itemImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:contentDescription="Imagen del Objeto"
+                    app:layout_constraintTop_toBottomOf="@id/resultTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="16dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Pantalla de carga -->
+        <include
+            android:id="@+id/loadingScreen"
+            layout="@layout/loading_screen" />
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
