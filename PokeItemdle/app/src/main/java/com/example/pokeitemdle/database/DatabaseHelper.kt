@@ -18,7 +18,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         const val COLUMN_PASSWORD = "password"
         const val COLUMN_GAMES_PLAYED = "games_played"
         const val COLUMN_TOTAL_PLAYED = "total_attempts"
-
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -48,7 +47,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     fun incrementTotalGames(email: String) {
         val db = this.writableDatabase
-        db.execSQL("UPDATE users SET total_games = total_games + 1 WHERE email = ?", arrayOf(email))
+        db.execSQL("UPDATE users SET games_played = games_played + 1 WHERE email = ?", arrayOf(email))
     }
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $TABLE_USERS")

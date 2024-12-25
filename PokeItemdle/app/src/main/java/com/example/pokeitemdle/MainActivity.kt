@@ -458,16 +458,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun showWinningDialog(attempts: Int) {
         Log.d("MainActivity", "Showing winning dialog with $attempts attempts")
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("¡Ganaste!")
-            .setMessage("Lo lograste en $attempts intentos.")
-            .setPositiveButton("OK") { _, _ ->
-                // Reiniciar juego
-                Log.d("MainActivity", "User clicked OK to restart the game")
-                attemptsLeft = 3
-                fetchRandomItemDetails(randomItem ?: "", RemoteAPI())
-            }
-            .create()
-        dialog.show()
+        runOnUiThread {
+            val dialog = AlertDialog.Builder(this)
+                .setTitle("¡Ganaste!")
+                .setMessage("Lo lograste en $attempts intentos.")
+                .setPositiveButton("OK") { _, _ ->
+                    // Reiniciar juego
+                    Log.d("MainActivity", "User clicked OK to restart the game")
+                    attemptsLeft = 3
+                    fetchRandomItemDetails(randomItem ?: "", RemoteAPI())
+                }
+                .create()
+            dialog.show()
+        }
     }
+
 }
