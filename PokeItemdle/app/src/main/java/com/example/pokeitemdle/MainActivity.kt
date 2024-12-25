@@ -1,6 +1,7 @@
 package com.example.pokeitemdle
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
@@ -41,6 +42,12 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = "PokeItemdle"
+
+        toolbar.setOnClickListener {
+            // Al hacer clic en el título del Toolbar, lanzar PokeItemdleActivity
+            val intent = Intent(this, PokeItemdleActivity::class.java)
+            startActivity(intent)
+        }
 
         loadingScreen = findViewById(R.id.loadingScreen)
         mainContent = findViewById(R.id.mainContent)
