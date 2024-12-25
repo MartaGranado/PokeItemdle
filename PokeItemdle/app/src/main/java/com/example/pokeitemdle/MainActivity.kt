@@ -119,9 +119,10 @@ class MainActivity : AppCompatActivity() {
         builder.setPositiveButton("Registrar") { _, _ ->
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
+            val passwordDB = password.hashCode();
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 val dbHelper = DatabaseHelper(this)
-                val success = dbHelper.registerUser(email, password)
+                val success = dbHelper.registerUser(email, passwordDB)
                 onRegister(success)
             } else {
                 showToast("Por favor completa todos los campos.")
@@ -214,8 +215,9 @@ class MainActivity : AppCompatActivity() {
         builder.setPositiveButton("Iniciar") { _, _ ->
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
+            val passwordDb = password.hashCode();
             val dbHelper = DatabaseHelper(this)
-            val validUser = dbHelper.loginUser(email, password)
+            val validUser = dbHelper.loginUser(email, passwordDb)
             if (validUser) {
                 onLogin(email)
             } else {

@@ -25,7 +25,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     CREATE TABLE $TABLE_USERS (
         $COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,
         $COLUMN_EMAIL TEXT UNIQUE,
-        $COLUMN_PASSWORD TEXT,
+        $COLUMN_PASSWORD INTEGER,
         $COLUMN_GAMES_PLAYED INTEGER DEFAULT 0,
         $COLUMN_TOTAL_PLAYED INTEGER DEFAULT 0
     )
@@ -111,7 +111,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
 
     // Insert a new user
-    fun registerUser(email: String, password: String): Boolean {
+    fun registerUser(email: String, password: Int): Boolean {
         val db = writableDatabase
         val values = ContentValues()
         values.put(COLUMN_EMAIL, email)
@@ -126,10 +126,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     // Validate login
-    fun loginUser(email: String, password: String): Boolean {
+    fun loginUser(email: String, password: Int): Boolean {
         val db = readableDatabase
         val query = "SELECT * FROM $TABLE_USERS WHERE $COLUMN_EMAIL = ? AND $COLUMN_PASSWORD = ?"
-        val cursor = db.rawQuery(query, arrayOf(email, password))
+        val cursor = db.rawQuery(query, arrayOf(email, password.toString()))
         val exists = cursor.count > 0
         cursor.close()
         return exists
