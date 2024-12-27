@@ -131,6 +131,7 @@ class MainActivity : AppCompatActivity() {
                 val dbHelper = DatabaseHelper(this)
                 val success = dbHelper.registerUser(email, passwordDB)
                 onRegister(success)
+                userEmail = email
             } else {
                 showToast("Por favor completa todos los campos.")
             }
@@ -291,7 +292,8 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     if (attemptsLeft > 0) {
-                        attemptsTextView.text = "Intentos restantes: $attemptsLeft"
+                        val text = "Intentos restantes: $attemptsLeft"
+                        attemptsTextView.text = text
                         fetchItemDetails(selectedItem, resultTextView, itemImageView, remoteAPI)
                     } else {
                         // Dividir las pistas en parte1 y parte2
@@ -303,7 +305,8 @@ class MainActivity : AppCompatActivity() {
                                 }
                             } ?: "No clues available."
                         } ?: "No clues available."
-                        attemptsTextView.text = "Pista: $effectEntries"
+                        val text = "Pista: $effectEntries"
+                        attemptsTextView.text = text
                         fetchItemDetails(selectedItem, resultTextView, itemImageView, remoteAPI)
                         showToast("Intento incorrecto. Sigue intentando.")
                     }

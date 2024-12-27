@@ -41,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
             // Try to register the user
             if (DatabaseHelper(this).registerUser(email, password.hashCode())) {
                 Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                navigateToPokeItemdle(email)
             } else {
                 Toast.makeText(this, "El usuario ya existe", Toast.LENGTH_SHORT).show()
             }
