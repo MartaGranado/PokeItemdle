@@ -353,7 +353,7 @@ class MainActivity : AppCompatActivity() {
                     val randomCost = randomItemDetails?.optInt("cost", -1) ?: -1
                     val fetchedCost = details.optInt("cost", -1)
 
-                    val formattedDetails = formatDetailsWithColors(details, randomCost, fetchedCost)
+                    val formattedDetails = formatDetailsWithColors(details, randomCost, fetchedCost, resultTextView.text)
                     resultTextView.text = formattedDetails
 
                     val spriteUrl = details.optJSONObject("sprites")?.optString("default", "")
@@ -373,7 +373,8 @@ class MainActivity : AppCompatActivity() {
     private fun formatDetailsWithColors(
         details: JSONObject,
         randomCost: Int,
-        fetchedCost: Int
+        fetchedCost: Int,
+        previousTries: CharSequence
     ): SpannableString {
         val name = details.optString("name", "Unknown")
         val cost = details.optInt("cost", 0)
@@ -418,6 +419,7 @@ class MainActivity : AppCompatActivity() {
     Coste Objeto: $costComparison
     Fling-power: $flingComparison
     Descripción: $fetchedEffectEntries
+    Otros intentos: $previousTries
 """.trimIndent()
 
         val spannable = SpannableString(formattedText)
