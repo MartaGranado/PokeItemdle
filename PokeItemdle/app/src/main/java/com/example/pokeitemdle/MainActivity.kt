@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        userEmail = intent.getStringExtra("email")
         Log.d("MainActivity", "onCreate() called")
 
         // Configurar el Toolbar
@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity", "onOptionsItemSelected: called")
         return when (item.itemId) {
             R.id.action_login -> {
-                if (userEmail == null) {
+                if (userEmail.isNullOrEmpty()) {
                     showLoginDialog { email ->
                         userEmail = email
                         invalidateOptionsMenu()
@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun showAverageAttemptsDialog() {
-        if (userEmail != null) {
+        if (!userEmail.isNullOrEmpty()) {
             val dbHelper = DatabaseHelper(this)
             val average = dbHelper.getAverageAttempts(userEmail!!)
             val message = if (average > 0) {
@@ -261,7 +261,7 @@ class MainActivity : AppCompatActivity() {
                     fetchItemDetails(selectedItem, resultTextView, itemImageView, remoteAPI)
 
                     // Guardar los intentos en la base de datos si el usuario ha iniciado sesión
-                    if (userEmail != null) {
+                    if (!userEmail.isNullOrEmpty()) {
                         val dbHelper = DatabaseHelper(this)
                         val previousAttempts = dbHelper.getTotalAttempts(userEmail!!)
                         val totalAttempts = previousAttempts + userAttempts
