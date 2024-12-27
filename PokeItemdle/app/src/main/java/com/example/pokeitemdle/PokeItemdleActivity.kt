@@ -15,22 +15,16 @@ class PokeItemdleActivity : AppCompatActivity() {
 
         val classicButton: Button = findViewById(R.id.classicButton)
         // Get the login status from the intent
-        val isLoggedIn = intent.getBooleanExtra("IS_LOGGED_IN", false) // Default to false if not passed
+        val email = intent.getStringExtra("email")
 
         // If the user is logged in, navigate to MainActivity
-        if (isLoggedIn) {
-            navigateToMain(isLoggedIn = true)
-        }
 
         classicButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
+            if(email.isNullOrEmpty()){
+                intent.putExtra("email", email)
+            }
             startActivity(intent)
         }
-    }
-    private fun navigateToMain(isLoggedIn: Boolean) {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("IS_LOGGED_IN", isLoggedIn) // Passing login status
-        startActivity(intent)
-        finish() // Close the LoginActivity
     }
 }

@@ -27,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
             // Try to log in with the entered credentials
             if (DatabaseHelper(this).loginUser(email, password.hashCode())) {
                 Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-                navigateToPokeItemdle(isLoggedIn = true) // User is logged in
+                navigateToPokeItemdle(email) // User is logged in
             } else {
                 Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
             }
@@ -49,14 +49,14 @@ class LoginActivity : AppCompatActivity() {
         // Guest button click listener
         guestButton.setOnClickListener {
             Toast.makeText(this, "Tu progreso no será guardado", Toast.LENGTH_SHORT).show()
-            navigateToPokeItemdle(isLoggedIn = false) // User is a guest
+            navigateToPokeItemdle("") // User is a guest
         }
     }
 
     // This method will navigate to PokeItemdleActivity and pass whether the user is logged in
-    private fun navigateToPokeItemdle(isLoggedIn: Boolean) {
+    private fun navigateToPokeItemdle(email: String) {
         val intent = Intent(this, PokeItemdleActivity::class.java)
-        intent.putExtra("IS_LOGGED_IN", isLoggedIn) // Passing login status
+        intent.putExtra("email", email) // Passing login status
         startActivity(intent)
         finish() // Close the LoginActivity
     }
