@@ -474,18 +474,25 @@ class MainActivity : AppCompatActivity() {
 
         val effectEntriesColor = if (fetchedEffectEntries == randomEffectEntries) Color.GREEN else Color.RED
 
+        // Comparaciones y símbolos ✅/❌
+        val costSymbol = if (fetchedCost == randomCost) "✅" else "❌"
+        val categorySymbol = if (category == randomCategory) "✅" else "❌"
+        val flingSymbol = if (fetchedFlingPower == randomFlingPower) "✅" else "❌"
+        val descriptionSymbol = if (fetchedEffectEntries == randomEffectEntries) "✅" else "❌"
+
         val formattedText = """
-        Nombre: $name
-        Categoría: $category
-        Coste: $costComparison
-        Fling-power: $flingComparison
-        Uso: $fetchedEffectEntries
-        Otros intentos: $previousTries
+    Nombre: $name
+    Coste: $costComparison $costSymbol
+    Categoría: $category $categorySymbol
+    Fling-power: $fetchedFlingPower $flingSymbol
+    Descripción: $fetchedEffectEntries $descriptionSymbol
+    _____________________________
+    Intentos anteriores: $previousTries
     """.trimIndent()
 
         val spannable = SpannableString(formattedText)
 
-        // Apply color to the category
+        // Aplicar color a la categoría
         val categoryStartIndex = formattedText.indexOf("Categoría:") + "Categoría: ".length
         val categoryEndIndex = categoryStartIndex + category.length
         val categoryColor = if (category == randomCategory) Color.GREEN else Color.RED
@@ -496,7 +503,7 @@ class MainActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
-        // Apply color to the cost
+        // Aplicar color al coste
         val costStartIndex = formattedText.indexOf(costComparison)
         val costEndIndex = costStartIndex + costComparison.length
         val costColor = if (fetchedCost == randomCost) Color.GREEN else Color.RED
@@ -507,7 +514,7 @@ class MainActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
-        // Apply color to the fling-power
+        // Aplicar color al Fling-power
         val flingStartIndex = formattedText.indexOf("Fling-power:") + "Fling-power: ".length
         val flingEndIndex = flingStartIndex + flingComparison.length
         val flingColor = if (fetchedFlingPower == randomFlingPower) Color.GREEN else Color.RED
@@ -518,8 +525,8 @@ class MainActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
-        // Apply color to the description
-        val descriptionStartIndex = formattedText.indexOf("Uso:") + "Uso: ".length
+        // Aplicar color a la descripción
+        val descriptionStartIndex = formattedText.indexOf("Descripción:") + "Descripción: ".length
         val descriptionEndIndex = descriptionStartIndex + fetchedEffectEntries.length
         spannable.setSpan(
             ForegroundColorSpan(effectEntriesColor),
@@ -528,10 +535,19 @@ class MainActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
-        // No se aplica color al nombre, omitiendo cualquier manipulación de índices para "Nombre".
+        // Aplicar color a los intentos anteriores
+        val previousTriesStartIndex = formattedText.indexOf("Intentos anteriores:") + "Intentos anteriores: ".length
+        val previousTriesEndIndex = previousTriesStartIndex + previousTries.length
+        spannable.setSpan(
+            ForegroundColorSpan(Color.BLACK), // Optional color for previous tries
+            previousTriesStartIndex,
+            previousTriesEndIndex,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
 
         return spannable
     }
+
 
 
     private fun showWinningDialog(attempts: Int) {
