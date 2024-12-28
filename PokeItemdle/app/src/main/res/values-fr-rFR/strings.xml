@@ -13,4 +13,6 @@
     <string name="login_button">S\'identifier</string>
     <string name="register_button">Registre</string>
     <string name="guest_button">Continuer sans compte</string>
+    <string name="pista_disponible_en_5">Pista disponible en: %d</string>
+    <string name="intentos_restantes">Intentos restantes: %d</string>
 </resources>

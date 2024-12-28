@@ -48,6 +48,12 @@ class DescriptionActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = "PokeItemdle"
 
+        attemptsTextView = findViewById(R.id.hintCountdownTextView)
+        attemptsTextView.text = String.format(getString(R.string.pista_disponible_en_5), attemptsUntilHint)
+
+        hintCountdownTextView = findViewById(R.id.attemptsTextView)
+        hintCountdownTextView.text = String.format(getString(R.string.intentos_restantes), attemptsRemaining)
+
         toolbar.setOnClickListener {
             // Al hacer clic en el título del Toolbar, lanzar PokeItemdleActivity
             val intent = Intent(this, PokeItemdleActivity::class.java)
@@ -258,6 +264,8 @@ class DescriptionActivity : AppCompatActivity() {
             userAttempts++
             attemptsRemaining--
             attemptsUntilHint--
+            attemptsTextView.text = String.format(getString(R.string.pista_disponible_en_5), attemptsUntilHint)
+            hintCountdownTextView.text = String.format(getString(R.string.intentos_restantes), attemptsRemaining)
 
             if (userAttempts > 20) {
                 showToast("Has alcanzado el número máximo de intentos.")

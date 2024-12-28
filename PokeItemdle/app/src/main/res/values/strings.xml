@@ -14,4 +14,6 @@
     <string name="login_button">Iniciar sesión</string>
     <string name="register_button">Registrarse</string>
     <string name="guest_button">Continuar sin cuenta</string>
+    <string name="pista_disponible_en_5">Pista disponible en: %d</string>
+    <string name="intentos_restantes">Intentos restantes: %d</string>
 </resources>
