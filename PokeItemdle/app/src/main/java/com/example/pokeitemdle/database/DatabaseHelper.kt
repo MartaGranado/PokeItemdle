@@ -45,6 +45,20 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     )
 """.trimIndent()
         db.execSQL(createTableQuery2)
+
+        val createTableQuery3 = """
+    CREATE TABLE IF NOT EXISTS attemptsMoves (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_email TEXT,
+        move_name TEXT,
+        type_name TEXT,
+        power TEXT,
+        accuracy TEXT,
+        damage_class TEXT,
+        description TEXT
+    )
+""".trimIndent()
+        db.execSQL(createTableQuery3)
     }
     // Método para insertar un intento
     fun insertAttempt(
@@ -69,6 +83,39 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             put("category_correct", if (categoryCorrect) "✅" else "❌")
             put("fling_power", flingPower)
             put("fling_power_correct", if (flingPowerCorrect) "✅" else "❌")
+            put("description", description)
+            put("description_correct", if (descriptionCorrect) "✅" else "❌")
+        }
+        val result = db.insert("attempts", null, contentValues)
+        return result != -1L
+    }
+
+    fun insertAttemptMoves(
+        userEmail: String?,
+        moveName: String,
+        type: String,
+        typeCorrect: Boolean,
+        power: String,
+        powerCorrect: Boolean,
+        accuracy: String,
+        accuracyCorrect: Boolean,
+        damageClass: String,
+        damageClassCorrect: Boolean,
+        description: String,
+        descriptionCorrect: Boolean
+    ): Boolean {
+        val db = this.writableDatabase
+        val contentValues = ContentValues().apply {
+            put("user_email", userEmail)
+            put("move_name", moveName)
+            put("type", type)
+            put("type_correct", if (typeCorrect) "✅" else "❌")
+            put("power", power)
+            put("power_correct", if (powerCorrect) "✅" else "❌")
+            put("accuracy", accuracy)
+            put("accuracy_correct", if (accuracyCorrect) "✅" else "❌")
+            put("damage_class", damageClass)
+            put("damage_class_correct", if (damageClassCorrect) "✅" else "❌")
             put("description", description)
             put("description_correct", if (descriptionCorrect) "✅" else "❌")
         }
