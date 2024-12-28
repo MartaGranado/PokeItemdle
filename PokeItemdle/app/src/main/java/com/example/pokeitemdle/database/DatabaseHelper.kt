@@ -9,7 +9,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     companion object {
         private const val DATABASE_NAME = "UserDatabase.db"
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 4
 
         // Table and column names
         const val TABLE_USERS = "users"
@@ -32,7 +32,51 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 """.trimIndent()
 
         db.execSQL(createTableQuery)
+        // Agregar esta tabla en onCreate de la base de datos
+        val createTableQuery2 = """
+    CREATE TABLE IF NOT EXISTS attempts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_email TEXT,
+        item_name TEXT,
+        cost TEXT,
+        category TEXT,
+        fling_power TEXT,
+        description TEXT
+    )
+""".trimIndent()
+        db.execSQL(createTableQuery2)
     }
+    // Método para insertar un intento
+    fun insertAttempt(
+        userEmail: String?,
+        itemName: String,
+        cost: String,
+        costCorrect: Boolean,
+        category: String,
+        categoryCorrect: Boolean,
+        flingPower: String,
+        flingPowerCorrect: Boolean,
+        description: String,
+        descriptionCorrect: Boolean
+    ): Boolean {
+        val db = this.writableDatabase
+        val contentValues = ContentValues().apply {
+            put("user_email", userEmail)
+            put("item_name", itemName)
+            put("cost", cost)
+            put("cost_correct", if (costCorrect) "✅" else "❌")
+            put("category", category)
+            put("category_correct", if (categoryCorrect) "✅" else "❌")
+            put("fling_power", flingPower)
+            put("fling_power_correct", if (flingPowerCorrect) "✅" else "❌")
+            put("description", description)
+            put("description_correct", if (descriptionCorrect) "✅" else "❌")
+        }
+        val result = db.insert("attempts", null, contentValues)
+        return result != -1L
+    }
+
+
     fun getTotalAttempts(email: String): Int {
         val db = this.readableDatabase
         val cursor = db.rawQuery("SELECT total_attempts FROM users WHERE email = ?", arrayOf(email))
@@ -44,6 +88,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             cursor.close()
         }
     }
+    fun clearAttempts() {
+        val db = this.writableDatabase
+        db.execSQL("DELETE FROM attempts")
+    }
+
 
     fun incrementTotalGames(email: String) {
         val db = this.writableDatabase
@@ -52,6 +101,26 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $TABLE_USERS")
         onCreate(db)
+        if (oldVersion < 2) {
+            val createTableQuery2 = """
+        CREATE TABLE IF NOT EXISTS attempts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_email TEXT,
+            item_name TEXT,
+            cost TEXT,
+            category TEXT,
+            fling_power TEXT,
+            description TEXT
+        )
+        """.trimIndent()
+            db.execSQL(createTableQuery2)
+        }
+        if (oldVersion < 3) {
+            db.execSQL("ALTER TABLE attempts ADD COLUMN cost_correct TEXT DEFAULT '❌'")
+            db.execSQL("ALTER TABLE attempts ADD COLUMN category_correct TEXT DEFAULT '❌'")
+            db.execSQL("ALTER TABLE attempts ADD COLUMN fling_power_correct TEXT DEFAULT '❌'")
+            db.execSQL("ALTER TABLE attempts ADD COLUMN description_correct TEXT DEFAULT '❌'")
+        }
     }
     // Función para actualizar estadísticas del juego
     fun updateGameStats(email: String, attempts: Int): Boolean {
@@ -134,4 +203,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         cursor.close()
         return exists
     }
+
+
 }

@@ -262,8 +262,50 @@ class MainActivity : AppCompatActivity() {
                     fetchItemDetails(selectedItem, resultTextView, itemImageView, remoteAPI)
 
                     // Guardar los intentos en la base de datos si el usuario ha iniciado sesión
+                    Log.d("MainActivity", "User email: $userEmail")
                     if (!userEmail.isNullOrEmpty()) {
                         val dbHelper = DatabaseHelper(this)
+
+                        val name = selectedItem
+// Asegurarse de que randomCost no sea nulo, se establece en 0 si es nulo
+                        val randomCost = randomItemDetails?.optInt("cost", 0) ?: 0
+                        val randomCategory = randomItemDetails?.optJSONObject("category")?.optString("name", "Unknown") ?: "Unknown"
+                        val randomFlingPower = randomItemDetails?.optInt("fling_power", 0) ?: 0
+
+                        givenNameRecieveDetails(name, remoteAPI) { cost, category, flingPower, description ->
+                            // Asegúrate de que cost es un valor Int no nulo, y compararlo con randomCost
+                            val costComparison = when {
+                                cost < randomCost -> "cost ^"
+                                cost > randomCost -> "cost v"
+                                else -> "fetchedCost" // Asegúrate de que "fetchedCost" sea una variable válida
+                            }
+
+                            // Log para depuración antes de insertar en la base de datos
+                            Log.d("MainActivity", "Inserting attempt with cost: $cost, category: $category, flingPower: $flingPower, description: $description")
+
+                            val insertSuccess = dbHelper.insertAttempt(
+                                userEmail = userEmail,
+                                itemName = name,
+                                cost = cost.toString(), // Convierte cost a String
+                                costCorrect = cost.toInt() == randomCost,
+                                category = category,
+                                categoryCorrect = category == randomCategory,
+                                flingPower = flingPower.toString(), // Convierte flingPower a String
+                                flingPowerCorrect = flingPower == randomFlingPower,
+                                description = description,
+                                descriptionCorrect = description == randomItemDetails?.optString("description", "")
+                            )
+
+                            // Verifica si la inserción fue exitosa
+                            if (insertSuccess) {
+                                Log.d("MainActivity", "Attempt inserted successfully")
+                            } else {
+                                Log.e("MainActivity", "Failed to insert attempt")
+                            }
+                        }
+
+
+
                         val previousAttempts = dbHelper.getTotalAttempts(userEmail!!)
                         val totalAttempts = previousAttempts + userAttempts
                         val success = dbHelper.updateGameStats(userEmail!!, totalAttempts)
@@ -338,6 +380,26 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    private fun givenNameRecieveDetails(itemName: String, remoteAPI: RemoteAPI, onSuccess: (Double, String, Int, String) -> Unit) {
+        remoteAPI.getItemDetails(
+            itemName = itemName,
+            onSuccess = { itemDetails ->  // Suponiendo que itemDetails es un JSONObject
+                // Extraemos los valores del JSONObject
+                val cost = itemDetails.optDouble("cost")
+                val category = itemDetails.optString("category")
+                val flingPower = itemDetails.optInt("fling-power")
+                val description = itemDetails.optString("description")
+
+                // Llamamos al callback onSuccess con los valores extraídos
+                onSuccess(cost, category, flingPower, description)
+            },
+            onError = { error ->
+                // Manejo de errores si es necesario
+                println("Error: $error")
+            }
+        )
+    }
+
     private fun fetchItemDetails(
         itemName: String,
         resultTextView: TextView,
@@ -381,51 +443,50 @@ class MainActivity : AppCompatActivity() {
         val category = details.optJSONObject("category")?.optString("name", "Unknown") ?: "Unknown"
         val randomCategory = randomItemDetails?.optJSONObject("category")?.optString("name", "Unknown") ?: "Unknown"
 
-        val fetchedFlingPower = details.optInt("fling_power", 0) // Fling power del objeto seleccionado
-        val randomFlingPower = randomItemDetails?.optInt("fling_power", 0) ?: 0 // Fling power del objeto aleatorio
+        val fetchedFlingPower = details.optInt("fling_power", 0)
+        val randomFlingPower = randomItemDetails?.optInt("fling_power", 0) ?: 0
 
-        // Comparación para el coste
         val costComparison = when {
             fetchedCost < randomCost -> "$fetchedCost ^"
             fetchedCost > randomCost -> "$fetchedCost v"
             else -> "$fetchedCost"
         }
 
-        // Comparación para el fling-power
         val flingComparison = when {
             fetchedFlingPower < randomFlingPower -> "$fetchedFlingPower ^"
             fetchedFlingPower > randomFlingPower -> "$fetchedFlingPower v"
             else -> "$fetchedFlingPower"
         }
 
-        // Descripción
         val fetchedEffectEntries = details.optJSONArray("effect_entries")?.let { effects ->
             (0 until effects.length()).joinToString("\n") { index ->
-                effects.getJSONObject(index).optString("effect", "No description available.").split(":").getOrNull(0)?.trim() ?: "No description available."
+                effects.getJSONObject(index).optString("effect", "No description available.").split(":").getOrNull(0)?.trim()
+                    ?: "No description available."
             }
         } ?: "No description available."
 
         val randomEffectEntries = randomItemDetails?.optJSONArray("effect_entries")?.let { effects ->
             (0 until effects.length()).joinToString("\n") { index ->
-                effects.getJSONObject(index).optString("effect", "No description available.").split(":").getOrNull(0)?.trim() ?: "No description available."
+                effects.getJSONObject(index).optString("effect", "No description available.").split(":").getOrNull(0)?.trim()
+                    ?: "No description available."
             }
         } ?: "No description available."
 
         val effectEntriesColor = if (fetchedEffectEntries == randomEffectEntries) Color.GREEN else Color.RED
 
         val formattedText = """
-    Nombre Objeto: $name
-    Categoría Objeto: $category
-    Coste Objeto: $costComparison
-    Fling-power: $flingComparison
-    Descripción: $fetchedEffectEntries
-    Otros intentos: $previousTries
-""".trimIndent()
+        Nombre: $name
+        Categoría: $category
+        Coste: $costComparison
+        Fling-power: $flingComparison
+        Uso: $fetchedEffectEntries
+        Otros intentos: $previousTries
+    """.trimIndent()
 
         val spannable = SpannableString(formattedText)
 
         // Apply color to the category
-        val categoryStartIndex = formattedText.indexOf("Categoría Objeto:") + "Categoría Objeto: ".length
+        val categoryStartIndex = formattedText.indexOf("Categoría:") + "Categoría: ".length
         val categoryEndIndex = categoryStartIndex + category.length
         val categoryColor = if (category == randomCategory) Color.GREEN else Color.RED
         spannable.setSpan(
@@ -435,7 +496,7 @@ class MainActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
-        // Aplicar color al coste
+        // Apply color to the cost
         val costStartIndex = formattedText.indexOf(costComparison)
         val costEndIndex = costStartIndex + costComparison.length
         val costColor = if (fetchedCost == randomCost) Color.GREEN else Color.RED
@@ -446,7 +507,7 @@ class MainActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
-        // Aplicar color al fling-power
+        // Apply color to the fling-power
         val flingStartIndex = formattedText.indexOf("Fling-power:") + "Fling-power: ".length
         val flingEndIndex = flingStartIndex + flingComparison.length
         val flingColor = if (fetchedFlingPower == randomFlingPower) Color.GREEN else Color.RED
@@ -457,8 +518,8 @@ class MainActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
-        // Aplicar color a la descripción
-        val descriptionStartIndex = formattedText.indexOf("Descripción:") + "Descripción: ".length
+        // Apply color to the description
+        val descriptionStartIndex = formattedText.indexOf("Uso:") + "Uso: ".length
         val descriptionEndIndex = descriptionStartIndex + fetchedEffectEntries.length
         spannable.setSpan(
             ForegroundColorSpan(effectEntriesColor),
@@ -467,8 +528,11 @@ class MainActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
+        // No se aplica color al nombre, omitiendo cualquier manipulación de índices para "Nombre".
+
         return spannable
     }
+
 
     private fun showWinningDialog(attempts: Int) {
         Log.d("MainActivity", "Showing winning dialog with $attempts attempts")

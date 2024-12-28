@@ -52,9 +52,9 @@ class ItemDetailsFormatter {
             } ?: "No effects available."
 
             return """
-                Nombre Objeto: $name
-                Categoría Objeto: $category
-                Coste Objeto: $cost
+                Nombre: $name
+                Categoría: $category
+                Coste: $cost
                 Fling-power: $flingPower
                 Generación: $effectiveGeneration
                 Atributos: $attributes
