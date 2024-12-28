@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome_message">Welcome to PokeItemdle</string>
+    <string name="welcome_message">Welcome to PokeItemdle</string>
+    <string name="classic_button">Classic</string>
+    <string name="descriptionButton">Description</string>
+    <string name="toolbar_description">Tool bar</string>
+    <string name="remaining_attempts">Tries left: 3</string>
+    <string name="hint_select_object">Select an object</string>
+    <string name="button_search">Search</string>
+    <string name="item_image_description">Object Image</string>
+    <string name="loading_objects">Loading objects...</string>
+    <string name="hint_password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
+    <string name="guest_button">Continue without an account</string>
+</resources>

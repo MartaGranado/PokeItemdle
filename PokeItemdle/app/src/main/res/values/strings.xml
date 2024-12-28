@@ -1,15 +1,15 @@
 <resources>
-    <string name="app_name">PokeItemdle</string>
+    <string name="app_name" translatable="false">PokeItemdle</string>
     <string name="welcome_message">Bienvenido a PokeItemdle</string>
-    <string name="classic_button">Classic</string>
-    <string name="descriptionButton">Description</string>
+    <string name="classic_button">Clasico</string>
+    <string name="descriptionButton">Descripcion</string>
     <string name="toolbar_description">Barra de herramientas</string>
     <string name="remaining_attempts">Intentos restantes: 3</string>
     <string name="hint_select_object">Selecciona un objeto</string>
     <string name="button_search">Buscar</string>
     <string name="item_image_description">Imagen del Objeto</string>
     <string name="loading_objects">Cargando objetos…</string>
-    <string name="hint_email">Email</string>
+    <string name="hint_email" translatable="false">Email</string>
     <string name="hint_password">Contraseña</string>
     <string name="login_button">Iniciar sesión</string>
     <string name="register_button">Registrarse</string>
