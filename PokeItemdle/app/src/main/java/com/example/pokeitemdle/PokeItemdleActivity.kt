@@ -16,6 +16,7 @@ class PokeItemdleActivity : AppCompatActivity() {
 
 
         val classicButton: Button = findViewById(R.id.classicButton)
+        val descButton: Button = findViewById(R.id.descriptionButton)
         // Get the login status from the intent
         val email = intent.getStringExtra("email")
         Toast.makeText(this, email, Toast.LENGTH_SHORT).show()
@@ -24,6 +25,13 @@ class PokeItemdleActivity : AppCompatActivity() {
 
         classicButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
+
+            intent.putExtra("email", email)
+
+            startActivity(intent)
+        }
+        descButton.setOnClickListener {
+            val intent = Intent(this, DescriptionActivity::class.java)
 
             intent.putExtra("email", email)
 
