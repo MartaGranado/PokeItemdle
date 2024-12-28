@@ -8,4 +8,10 @@
     <string name="hint_select_object">Selecciona un objeto</string>
     <string name="button_search">Buscar</string>
     <string name="item_image_description">Imagen del Objeto</string>
+    <string name="loading_objects">Cargando objetos…</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="login_button">Iniciar sesión</string>
+    <string name="register_button">Registrarse</string>
+    <string name="guest_button">Continuar sin cuenta</string>
 </resources>

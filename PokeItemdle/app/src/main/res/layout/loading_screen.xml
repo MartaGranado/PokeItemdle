@@ -20,8 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Cargando objetos..."
-            android:textSize="18sp"
+            android:text="@string/loading_objects"
+            android:textSize="@dimen/loading_text_size"
             android:textStyle="bold"
             android:textColor="@android:color/black" />
     </LinearLayout>
