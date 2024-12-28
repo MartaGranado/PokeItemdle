@@ -28,8 +28,8 @@
             <!-- Caja de intentos restantes -->
             <TextView
                 android:id="@+id/attemptsTextView"
-                android:layout_width="197dp"
-                android:layout_height="71dp"
+                android:layout_width="263dp"
+                android:layout_height="126dp"
                 android:layout_marginTop="60dp"
                 android:layout_marginBottom="16dp"
                 android:text="Intentos restantes: 3"
@@ -37,26 +37,26 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/PruebaTextView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.518"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed" />
 
+            <!-- Botón de buscar -->
+
             <AutoCompleteTextView
                 android:id="@+id/PruebaTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="385dp"
+                android:layout_height="86dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="16dp"
+                android:background="@android:drawable/editbox_background_normal"
                 android:hint="Selecciona un objeto"
                 android:padding="10dp"
-                android:background="@android:drawable/editbox_background_normal"
-                app:layout_constraintTop_toBottomOf="@id/attemptsTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/fetchButton"
-                android:layout_marginBottom="16dp"
-                android:layout_marginHorizontal="24dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/attemptsTextView" />
 
-            <!-- Botón de buscar -->
             <Button
                 android:id="@+id/fetchButton"
                 android:layout_width="wrap_content"
@@ -81,7 +81,11 @@
                 android:layout_marginBottom="200dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+<<<<<<< Updated upstream
                 app:layout_constraintHorizontal_bias="0.0"
+=======
+                app:layout_constraintHorizontal_bias="0.497"
+>>>>>>> Stashed changes
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fetchButton"
                 app:layout_constraintVertical_bias="0.0">

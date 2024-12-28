@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         userEmail = intent.getStringExtra("email")
+        if (userEmail.isNullOrEmpty()) userEmail=null
         Log.d("MainActivity", "onCreate() called")
 
         // Configurar el Toolbar

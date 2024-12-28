@@ -2,23 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
         android:id="@+id/welcomeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bienvenido a PokeItemdle"
+        android:paddingBottom="24dp"
+        android:text="@string/welcome_message"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:paddingBottom="24dp" />
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/classicButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Classic" />
+        android:text="@string/classic_button" />
+
+    <Button
+        android:id="@+id/descriptionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/descriptionButton" />
 
 </LinearLayout>
