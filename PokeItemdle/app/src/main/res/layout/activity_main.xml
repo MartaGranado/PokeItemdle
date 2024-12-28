@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
+        android:contentDescription="@string/toolbar_description"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <FrameLayout
@@ -32,7 +34,7 @@
                 android:layout_height="126dp"
                 android:layout_marginTop="60dp"
                 android:layout_marginBottom="16dp"
-                android:text="Intentos restantes: 3"
+                android:text="@string/remaining_attempts"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/PruebaTextView"
@@ -42,7 +44,6 @@
                 app:layout_constraintVertical_chainStyle="packed" />
 
             <!-- Botón de buscar -->
-
             <AutoCompleteTextView
                 android:id="@+id/PruebaTextView"
                 android:layout_width="385dp"
@@ -50,7 +51,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginBottom="16dp"
                 android:background="@android:drawable/editbox_background_normal"
-                android:hint="Selecciona un objeto"
+                android:hint="@string/hint_select_object"
                 android:padding="10dp"
                 app:layout_constraintBottom_toTopOf="@id/fetchButton"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +62,7 @@
                 android:id="@+id/fetchButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Buscar"
+                android:text="@string/button_search"
                 app:layout_constraintTop_toBottomOf="@id/PruebaTextView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -70,9 +71,6 @@
                 android:layout_marginBottom="16dp" />
 
             <!-- ScrollView para hacer desplazable el resultTextView -->
-
-            <!-- ImageView para mostrar la imagen a la derecha -->
-
             <android.widget.ScrollView
                 android:id="@+id/scrollView2"
                 android:layout_width="243dp"
@@ -99,13 +97,13 @@
                 android:id="@+id/itemImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:contentDescription="Imagen del Objeto"
+                android:contentDescription="@string/item_image_description"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.514"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.958" /> <!-- Asegura que esté a la derecha -->
+                app:layout_constraintVertical_bias="0.958" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Pantalla de carga -->

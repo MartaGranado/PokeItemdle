@@ -3,4 +3,9 @@
     <string name="welcome_message">Bienvenido a PokeItemdle</string>
     <string name="classic_button">Classic</string>
     <string name="descriptionButton">Description</string>
+    <string name="toolbar_description">Barra de herramientas</string>
+    <string name="remaining_attempts">Intentos restantes: 3</string>
+    <string name="hint_select_object">Selecciona un objeto</string>
+    <string name="button_search">Buscar</string>
+    <string name="item_image_description">Imagen del Objeto</string>
 </resources>
