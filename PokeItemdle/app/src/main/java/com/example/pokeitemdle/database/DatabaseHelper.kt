@@ -9,7 +9,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     companion object {
         private const val DATABASE_NAME = "UserDatabase.db"
-        private const val DATABASE_VERSION = 4
+        private const val DATABASE_VERSION = 5
 
         // Table and column names
         const val TABLE_USERS = "users"
@@ -59,6 +59,89 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     )
 """.trimIndent()
         db.execSQL(createTableQuery3)
+
+        val createTableQuery4 = """
+    CREATE TABLE IF NOT EXISTS objectTable (
+        object TEXT,
+        attempts INTEGER
+    )
+""".trimIndent()
+        db.execSQL(createTableQuery4)
+
+        val createTableQuery5 = """
+    CREATE TABLE IF NOT EXISTS move (
+        move TEXT, 
+        attempts INTEGER
+    )
+""".trimIndent()
+        db.execSQL(createTableQuery5)
+    }
+
+    fun insertObject(
+        objectToInsert: String?,
+        attemptsToInsert: Int
+    ) {
+        val db = this.writableDatabase
+        val contentValues = ContentValues().apply { put("object",objectToInsert); put("attempts", attemptsToInsert )}
+        db.insert("objectTable", null,  contentValues)
+    }
+
+
+    fun insertMove(
+        moveToInsert:String?,
+        attemptsToInsert: Int
+    ) {
+        val db = this.writableDatabase
+        val contentValues = ContentValues().apply { put("move",moveToInsert); put("attempts", attemptsToInsert) }
+        db.insert("move", null,  contentValues)
+    }
+
+    fun getObject(): String? {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM objectTable", null)
+        return if (cursor.moveToFirst()) {
+            cursor.getString(0)
+        } else {
+            null // Si no hay registros, retornar 0
+        }.also {
+            cursor.close()
+        }
+    }
+
+    fun getAttemptsObject(): Int {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM objectTable", null)
+        return if (cursor.moveToFirst()) {
+            cursor.getInt(0)
+        } else {
+            0 // Si no hay registros, retornar 0
+        }.also {
+            cursor.close()
+        }
+    }
+
+    fun getMove(): String? {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM move", null)
+        return if (cursor.moveToFirst()) {
+            cursor.getString(0)
+        } else {
+            null // Si no hay registros, retornar 0
+        }.also {
+            cursor.close()
+        }
+    }
+
+    fun getAttemptsMove(): Int {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM move", null)
+        return if (cursor.moveToFirst()) {
+            cursor.getInt(0)
+        } else {
+            -1 // Si no hay registros, retornar -1
+        }.also {
+            cursor.close()
+        }
     }
     // Método para insertar un intento
     fun insertAttempt(

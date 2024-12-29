@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = "PokeItemdle"
 
         toolbar.setOnClickListener {
+            val dbHelper = DatabaseHelper(this)
+            dbHelper.insertObject(randomItem, userAttempts)
             // Al hacer clic en el título del Toolbar, lanzar PokeItemdleActivity
             val intent = Intent(this, PokeItemdleActivity::class.java)
             startActivity(intent)
@@ -76,7 +78,16 @@ class MainActivity : AppCompatActivity() {
                             items
                         )
                         autoCompleteTextView.setAdapter(adapter)
-                        randomItem = items.random()
+                        val dbHelper = DatabaseHelper(this)
+                        if(dbHelper.getObject() != null){
+                            randomItem = dbHelper.getObject()
+                            userAttempts = dbHelper.getAttemptsObject()
+                            if(userAttempts > attemptsLeft) attemptsLeft = 0
+                            else attemptsLeft -= userAttempts
+                        } else {
+                            randomItem = items.random()
+                        }
+
                         fetchRandomItemDetails(randomItem ?: "", remoteAPI)
 
                         // Ocultar pantalla de carga y mostrar contenido principal

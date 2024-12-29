@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.provider.ContactsContract.Data
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -56,6 +57,9 @@ class DescriptionActivity : AppCompatActivity() {
         hintCountdownTextView.text = String.format(getString(R.string.intentos_restantes), attemptsRemaining)
 
         toolbar.setOnClickListener {
+            val dbHelper = DatabaseHelper(this)
+            dbHelper.insertMove(randomMove, userAttempts)
+
             // Al hacer clic en el título del Toolbar, lanzar PokeItemdleActivity
             val intent = Intent(this, PokeItemdleActivity::class.java)
             startActivity(intent)
@@ -84,7 +88,15 @@ class DescriptionActivity : AppCompatActivity() {
                             android.R.layout.simple_dropdown_item_1line,
                             moves
                         )
+                        val dbHelper = DatabaseHelper(this)
                         autoCompleteTextView.setAdapter(adapter)
+                        if(dbHelper.getMove() != null){
+                            randomMove = dbHelper.getMove()
+                            userAttempts = dbHelper.getAttemptsMove()
+                            attemptsRemaining -= userAttempts
+                            if(userAttempts > attemptsUntilHint) attemptsUntilHint = 0
+                            else attemptsUntilHint -= userAttempts
+                        }
                         randomMove = moves.random()
                         fetchRandomMoveDetails(randomMove ?: "", remoteAPI)
 
