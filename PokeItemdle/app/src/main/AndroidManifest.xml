@@ -14,12 +14,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PokeItemdle"
-        >
+        android:theme="@style/Theme.PokeItemdle">
+        <activity
+            android:name=".CuentaActivity"
+            android:exported="false" />
         <activity
             android:name=".DescriptionActivity"
-            android:exported="false" />
-        <!-- LoginActivity with export flag -->
+            android:exported="false" /> <!-- LoginActivity with export flag -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">

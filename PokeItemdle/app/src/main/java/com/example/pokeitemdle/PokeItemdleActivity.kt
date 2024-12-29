@@ -19,8 +19,6 @@ class PokeItemdleActivity : AppCompatActivity() {
         val descButton: Button = findViewById(R.id.descriptionButton)
         // Get the login status from the intent
         val email = intent.getStringExtra("email")
-        Toast.makeText(this, email, Toast.LENGTH_SHORT).show()
-
         // If the user is logged in, navigate to MainActivity
 
         classicButton.setOnClickListener {
