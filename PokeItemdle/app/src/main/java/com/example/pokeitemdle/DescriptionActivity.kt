@@ -20,6 +20,7 @@ import com.example.pokeitemdle.utils.ItemDetailsFormatter
 import org.json.JSONObject
 import android.text.InputType
 import com.example.pokeitemdle.database.DatabaseHelper
+import java.util.Locale
 
 
 class DescriptionActivity : AppCompatActivity() {
@@ -155,6 +156,11 @@ class DescriptionActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Log.d("MainActivity", "onOptionsItemSelected: called")
         return when (item.itemId) {
+            R.id.action_language -> {
+                // Mostrar un cuadro de diálogo para seleccionar el idioma
+                showLanguageDialog()
+                true
+            }
             R.id.action_login -> {
                 if (userEmail.isNullOrEmpty()) {
                     showLoginDialog { email ->
@@ -167,7 +173,6 @@ class DescriptionActivity : AppCompatActivity() {
                 }
                 true
             }
-
             R.id.action_register -> {
                 if (userEmail == null) {
                     showRegisterDialog { success ->
@@ -185,6 +190,31 @@ class DescriptionActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    private fun showLanguageDialog() {
+        val languages = arrayOf("Español", "Inglés", "Francés") // Los idiomas disponibles
+        AlertDialog.Builder(this)
+            .setTitle("Selecciona un idioma")
+            .setItems(languages) { _, which ->
+                when (which) {
+                    0 -> setLocale("es") // Cambiar a Español
+                    1 -> setLocale("en") // Cambiar a Inglés
+                    2 -> setLocale("fr") // Cambiar a Francés
+                }
+            }
+            .create()
+            .show()
+    }
+
+    private fun setLocale(languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+        recreate() // Recargar la actividad para aplicar el cambio de idioma
+    }
+
     private fun showAverageAttemptsDialog() {
         if (!userEmail.isNullOrEmpty()) {
             val dbHelper = DatabaseHelper(this)
