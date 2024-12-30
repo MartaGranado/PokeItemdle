@@ -113,6 +113,9 @@
         <!-- Pantalla de carga -->
         <include
             android:id="@+id/loadingScreen"
-            layout="@layout/loading_screen" />
+            layout="@layout/loading_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
