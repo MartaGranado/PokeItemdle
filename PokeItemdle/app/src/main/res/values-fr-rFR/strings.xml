@@ -11,7 +11,7 @@
     <string name="loading_objects">Charger des objets</string>
     <string name="hint_password">Mot de passe</string>
     <string name="login_button">S\'identifier</string>
-    <string name="register_button">Registre</string>
+    <string name="register_button">Se Registrer</string>
     <string name="guest_button">Continuer sans compte</string>
     <string name="pista_disponible_en_5">Piste disponible sur: %d</string>
     <string name="intentos_restantes">Tentatives restantes: %d</string>
@@ -28,7 +28,7 @@
     <string name="no_found">Aucun objet trouvé.</string>
     <string name="complete">Veuillez compléter tous les champs.</string>
     <string name="cancel">Annuler</string>
-    <string name="Session_started">Session commencée en tant que </string>
+    <string name="Session_started">Session commencée en tant que %s</string>
     <string name="toast_registered">Utilisateur enregistré avec succès.</string>
     <string name="toast_user_exists">Erreur : l\'utilisateur existe déjà.</string>
     <string name="toast_logged_out">Session fermée.</string>
@@ -54,5 +54,17 @@
     _____________________________\n
     Tentatives précédentes: %12$s
 </string>
-
+    <string name="wrong_email">L\'email doive avoir le format *@gmail.com </string>
+    <string name="wrong_password">Le mot de passe doit contenir au moins 6 caractères,
+    dont au moins un doit être une lettre majuscule et un doit être un chiffre</string>
+    <string name="successful_login">Connexion réussie!</string>
+    <string name="unsuccessful_login">Mauvais user ou mot de passe!</string>
+    <string name="successful_register">Registre réussie!</string>
+    <string name="unsuccessful_register"> L\'user existe déjà !</string>
+    <string name="no_account">Ton progrès ne sera pas sauvé!</string>
+    <string name="average_tries">Ton moyain de tentatives</string>
+    <string name="lost_game">Vous avez perdu! Le movement est: %s</string>
+    <string name="try_again">Essayez de nouveau!</string>
+    <string name="you_won">Vous avez gagné!</string>
+    <string name="winning_dialog">Vous avez réussi en %d tentatives</string>
 </resources>

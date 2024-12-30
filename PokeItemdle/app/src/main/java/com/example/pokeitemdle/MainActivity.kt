@@ -158,45 +158,43 @@ class MainActivity : AppCompatActivity() {
     private fun showRegisterDialog(onRegister: (Boolean) -> Unit) {
         Log.d("MainActivity", "showRegisterDialog: called")
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Registrar Usuario")
+        builder.setTitle(R.string.register_button)
 
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         val emailInput = EditText(this).apply {
-            hint = "Correo Electrónico"
+            hint = R.string.hint_email.toString()
             inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
         }
         val passwordInput = EditText(this).apply {
-            hint = "Contraseña"
+            hint = R.string.hint_password.toString()
             inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
         }
         layout.addView(emailInput)
         layout.addView(passwordInput)
         builder.setView(layout)
 
-        builder.setPositiveButton("Registrar") { _, _ ->
+        builder.setPositiveButton(R.string.register_button) { _, _ ->
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
             val passwordDB = password.hashCode();
-            if (email.isNotEmpty() && password.isNotEmpty()) {
+            if(validateInputs(email, password)){
                 val dbHelper = DatabaseHelper(this)
                 val success = dbHelper.registerUser(email, passwordDB)
                 onRegister(success)
                 userEmail = email
-            } else {
-                showToast("Por favor completa todos los campos.")
             }
         }
-        builder.setNegativeButton("Cancelar") { dialog, _ -> dialog.cancel() }
+        builder.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
 
         builder.show()
     }
 
 
     private fun showLanguageDialog() {
-        val languages = arrayOf("Español", "Inglés", "Francés") // Los idiomas disponibles
+        val languages = arrayOf(getString(R.string.spanish), getString(R.string.english), getString(R.string.french)) // Los idiomas disponibles
         AlertDialog.Builder(this)
-            .setTitle("Selecciona un idioma")
+            .setTitle(R.string.select_language)
             .setItems(languages) { _, which ->
                 when (which) {
                     0 -> setLocale("es") // Cambiar a Español
@@ -231,7 +229,7 @@ class MainActivity : AppCompatActivity() {
                     showLoginDialog { email ->
                         userEmail = email
                         invalidateOptionsMenu()
-                        showToast("Sesión iniciada como $userEmail")
+                        showToast(String.format(getString(R.string.Session_started), userEmail))
                     }
                 } else {
                     showAverageAttemptsDialog() // Mostrar promedio al hacer clic en el correo
@@ -241,7 +239,7 @@ class MainActivity : AppCompatActivity() {
             R.id.action_register -> {
                 if (userEmail == null) {
                     showRegisterDialog { success ->
-                        if (success) showToast("Usuario registrado exitosamente.") else showToast("Error: el usuario ya existe.")
+                        if (success) showToast(getString(R.string.toast_registered)) else showToast(getString(R.string.toast_user_exists))
                     }
                 }
                 true
@@ -249,7 +247,7 @@ class MainActivity : AppCompatActivity() {
             R.id.action_logout -> {
                 userEmail = null
                 invalidateOptionsMenu() // Refresh the menu
-                showToast("Sesión cerrada.")
+                showToast(getString(R.string.toast_logged_out))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -263,23 +261,23 @@ class MainActivity : AppCompatActivity() {
             val dbHelper = DatabaseHelper(this)
             val average = dbHelper.getAverageAttempts(userEmail!!)
             val message = if (average > 0) {
-                "Tu número medio de intentos: %.2f".format(average)
+                String.format(getString(R.string.average_attempts), average)
             } else {
-                "Aún no tienes suficientes datos para calcular un promedio."
+                getString(R.string.not_enough_data)
             }
             AlertDialog.Builder(this)
-                .setTitle("Tu promedio de intentos")
+                .setTitle(R.string.average_tries)
                 .setMessage(message)
                 .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
                 .show()
         } else {
-            showToast("Debes iniciar sesión para ver tu promedio de intentos.")
+            showToast(getString(R.string.toast_must_log))
         }
     }
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         menu?.findItem(R.id.action_register)?.isVisible = userEmail == null // Show "Registrar" if not logged in
         menu?.findItem(R.id.action_logout)?.isVisible = userEmail != null // Show "Cerrar sesión" if logged in
-        menu?.findItem(R.id.action_login)?.title = userEmail ?: "Login" // Update login title
+        menu?.findItem(R.id.action_login)?.title = userEmail ?: getString(R.string.login_button) // Update login title
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -287,7 +285,7 @@ class MainActivity : AppCompatActivity() {
     // Function to display the login dialog
     private fun showLoginDialog(onLogin: (String) -> Unit) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Iniciar Sesión")
+        builder.setTitle(getString(R.string.login_button))
 
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
@@ -655,6 +653,23 @@ class MainActivity : AppCompatActivity() {
                 .create()
             dialog.show()
         }
+    }
+
+    private fun validateInputs(email:String, password: String): Boolean {
+        // Validación del email
+        val emailRegex = Regex("^[a-zA-Z0-9._%+-]+@gmail\\.com\$")
+        if (!emailRegex.matches(email)) {
+            Toast.makeText(this,R.string.wrong_email, Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        // Validación de la contraseña
+        val passwordRegex = Regex("^(?=.*[A-Z])(?=.*\\d).{6,}\$")
+        if (!passwordRegex.matches(password)) {
+            Toast.makeText(this,R.string.wrong_password, Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
     }
 
 }

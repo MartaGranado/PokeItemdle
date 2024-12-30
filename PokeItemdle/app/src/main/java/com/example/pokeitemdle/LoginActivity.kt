@@ -29,10 +29,10 @@ class LoginActivity : AppCompatActivity() {
 
             // Try to log in with the entered credentials
             if (DatabaseHelper(this).loginUser(email, password.hashCode())) {
-                Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.successful_login, Toast.LENGTH_SHORT).show()
                 navigateToPokeItemdle(email) // User is logged in
             } else {
-                Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.unsuccessful_login, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -40,19 +40,20 @@ class LoginActivity : AppCompatActivity() {
         registerButton.setOnClickListener {
             val email = findViewById<EditText>(R.id.emailEditText).text.toString()
             val password = findViewById<EditText>(R.id.passwordEditText).text.toString()
-
-            // Try to register the user
-            if (DatabaseHelper(this).registerUser(email, password.hashCode())) {
-                Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                navigateToPokeItemdle(email)
-            } else {
-                Toast.makeText(this, "El usuario ya existe", Toast.LENGTH_SHORT).show()
+            if(validateInputs(email,password)){
+                if (DatabaseHelper(this).registerUser(email, password.hashCode())) {
+                    Toast.makeText(this, R.string.successful_register, Toast.LENGTH_SHORT).show()
+                    navigateToPokeItemdle(email)
+                } else {
+                    Toast.makeText(this, R.string.unsuccessful_register, Toast.LENGTH_SHORT).show()
+                }
             }
+            // Try to register the user
         }
 
         // Guest button click listener
         guestButton.setOnClickListener {
-            Toast.makeText(this, "Tu progreso no será guardado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.no_account, Toast.LENGTH_SHORT).show()
             navigateToPokeItemdle("") // User is a guest
         }
     }
@@ -64,4 +65,22 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
         finish() // Close the LoginActivity
     }
+
+    private fun validateInputs(email:String, password: String): Boolean {
+        // Validación del email
+        val emailRegex = Regex("^[a-zA-Z0-9._%+-]+@gmail\\.com\$")
+        if (!emailRegex.matches(email)) {
+            Toast.makeText(this,R.string.wrong_email, Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        // Validación de la contraseña
+        val passwordRegex = Regex("^(?=.*[A-Z])(?=.*\\d).{6,}\$")
+        if (!passwordRegex.matches(password)) {
+            Toast.makeText(this,R.string.wrong_password, Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
+
 }

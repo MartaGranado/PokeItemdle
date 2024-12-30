@@ -30,7 +30,7 @@
     <string name="no_found">No objects were found.</string>
     <string name="complete">Please complete all fields.</string>
     <string name="cancel">Cancel</string>
-    <string name="Session_started">Session started as </string>
+    <string name="Session_started">Session started as %s</string>
     <string name="toast_registered">User registered successfully.</string>
     <string name="toast_user_exists">Error: the user already exists.</string>
     <string name="toast_logged_out">Session closed.</string>
@@ -56,5 +56,17 @@
     _____________________________\n
     Previous attempts: %12$s
 </string>
-
+    <string name="wrong_email">The email must match the format @gmail.com</string>
+    <string name="wrong_password">The password must contain at least 6 characters, including at least one Uppercase
+        and one number</string>
+    <string name="successful_login">Successful login!</string>
+    <string name="unsuccessful_login"> Wrong user or password!</string>
+    <string name="successful_register">Successful register!</string>
+    <string name="unsuccessful_register"> The user already exists!</string>
+    <string name="no_account">Your progress won\'t be stored!</string>
+    <string name="average_tries">Your average of tries</string>
+    <string name="lost_game">You lost! The movement is: %s</string>
+    <string name="try_again">Try again!</string>
+    <string name="you_won">You won!</string>
+    <string name="winning_dialog">You made it in %d tries</string>
 </resources>

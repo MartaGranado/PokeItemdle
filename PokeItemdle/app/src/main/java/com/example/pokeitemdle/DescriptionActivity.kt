@@ -276,7 +276,7 @@ class DescriptionActivity : AppCompatActivity() {
                 getString(R.string.not_enough_data)
             }
             AlertDialog.Builder(this)
-                .setTitle("Tu promedio de intentos")
+                .setTitle(R.string.average_attempts)
                 .setMessage(message)
                 .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
                 .show()
@@ -397,8 +397,8 @@ class DescriptionActivity : AppCompatActivity() {
     private fun showLosingDialog() {
        runOnUiThread {
             val dialog = AlertDialog.Builder(this)
-                .setTitle("¡Perdiste! El movimiento era $randomMove")
-                .setMessage("Vuelve a intentarlo.")
+                .setTitle(String.format(getString(R.string.lost_game), randomMove))
+                .setMessage(R.string.try_again)
                 .setPositiveButton("OK") { _, _ ->
                     // Reiniciar juego
                     Log.d("MainActivity", "User clicked OK to restart the game")
@@ -644,8 +644,9 @@ class DescriptionActivity : AppCompatActivity() {
         Log.d("MainActivity", "Showing winning dialog with $attempts attempts")
         runOnUiThread {
             val dialog = AlertDialog.Builder(this)
-                .setTitle("¡Ganaste!")
+                .setTitle(R.string.you_won)
                 .setMessage("Lo lograste en $attempts intentos.")
+                .setMessage(String.format(getString(R.string.winning_dialog), attempts))
                 .setPositiveButton("OK") { _, _ ->
                     // Reiniciar juego
                     Log.d("MainActivity", "User clicked OK to restart the game")

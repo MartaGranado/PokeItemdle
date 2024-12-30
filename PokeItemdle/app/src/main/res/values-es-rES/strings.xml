@@ -29,7 +29,7 @@
     <string name="no_found">No se encontraron objetos.</string>
     <string name="complete">Por favor completa todos los campos.</string>
     <string name="cancel">Cancelar</string>
-    <string name="Session_started">Sesión iniciada como </string>
+    <string name="Session_started">Sesión iniciada como %s</string>
     <string name="toast_registered">Usuario registrado exitosamente.</string>
     <string name="toast_user_exists">Error: el usuario ya existe.</string>
     <string name="toast_logged_out">Sesión cerrada.</string>
@@ -55,7 +55,17 @@
         _____________________________\n
         Intentos anteriores: %12$s
     </string>
-
-
-
+    <string name="wrong_email">El email debe tener el formato *@gmail.com</string>
+    <string name="wrong_password">La contraseña debe contener al menos 6 caracteres, entre los cuales
+    al menos uno deberá ser mayúscua y otro un número</string>
+    <string name="successful_login">¡Inicio de sesión exitoso!</string>
+    <string name="unsuccessful_login">¡Usuario o contraseña incorrecta!</string>
+    <string name="successful_register">¡Registro exitoso!</string>
+    <string name="unsuccessful_register"> ¡El usuario ya existe!</string>
+    <string name="no_account">¡Tu progreso no será gaurdado!</string>
+    <string name="average_tries">Tu promedio de intentos</string>
+    <string name="lost_game">¡Perdiste! El movimiento era: %s</string>
+    <string name="try_again">¡Inténtalo de nuevo!</string>
+    <string name="you_won">¡Has ganado!</string>
+    <string name="winning_dialog">Vous avez réussi en %d tentatives</string>
 </resources>
