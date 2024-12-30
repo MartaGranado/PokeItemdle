@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity() {
 
         toolbar.setOnClickListener {
             // Al hacer clic en el título del Toolbar, lanzar PokeItemdleActivity
+            val dbHelper = DatabaseHelper(this)
+            dbHelper.insertAttemptsObject(userAttempts, randomItem)
             val intent = Intent(this, PokeItemdleActivity::class.java)
             startActivity(intent)
         }
@@ -87,7 +89,6 @@ class MainActivity : AppCompatActivity() {
                             }
                         } else {
                             randomItem = items.random()
-                            val dbHelper = DatabaseHelper(this)
                             dbHelper.insertObject(randomItem)
                         }
                         attemptsTextView.text = String.format(getString(R.string.remaining_attempts), attemptsLeft)

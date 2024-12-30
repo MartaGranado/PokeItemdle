@@ -55,7 +55,7 @@ class DescriptionActivity : AppCompatActivity() {
 
         toolbar.setOnClickListener {
             val dbHelper = DatabaseHelper(this)
-            dbHelper.insertMove(randomMove, userAttempts)
+            dbHelper.insertAttemptsMove(userAttempts, randomMove)
 
             // Al hacer clic en el título del Toolbar, lanzar PokeItemdleActivity
             val intent = Intent(this, PokeItemdleActivity::class.java)
@@ -95,6 +95,7 @@ class DescriptionActivity : AppCompatActivity() {
                             else attemptsUntilHint -= userAttempts
                         }
                         randomMove = moves.random()
+                        dbHelper.insertMove(randomMove)
                         fetchRandomMoveDetails(randomMove ?: "", remoteAPI)
 
                         // Ocultar pantalla de carga y mostrar contenido principal
