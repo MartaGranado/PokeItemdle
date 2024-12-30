@@ -1,20 +1,23 @@
 package com.example.pokeitemdle.utils
 
+import android.content.Context
+import com.example.pokeitemdle.R
 import org.json.JSONObject
 
 class ItemDetailsFormatter {
     companion object {
-        fun format(details: JSONObject): String {
-            val name = details.optString("name", "Unknown")
+        fun format(context: Context, details: JSONObject): String {
+            val resources = context.resources
+            val name = details.optString("name", resources.getString(R.string.unknown))
             val cost = details.optInt("cost", 0)
-            val category = details.optJSONObject("category")?.optString("name", "Unknown")
+            val category = details.optJSONObject("category")?.optString("name", resources.getString(R.string.unknown))
             val flingPower =
                 if (details.has("fling_power")) details.optInt("fling_power") else "N/A"
             val attributes = details.optJSONArray("attributes")?.let { attrs ->
                 (0 until attrs.length()).joinToString(", ") { index ->
-                    attrs.getJSONObject(index).optString("name", "Unknown")
+                    attrs.getJSONObject(index).optString("name", resources.getString(R.string.unknown))
                 }
-            } ?: "No attributes available."
+            } ?: resources.getString(R.string.no_attributes)
 
             val generationMap = mapOf(
                 "generation-i" to 1,
@@ -31,12 +34,12 @@ class ItemDetailsFormatter {
             val firstGeneration = details.optJSONArray("game_indices")?.let { indices ->
                 if (indices.length() > 0) {
                     val genName = indices.getJSONObject(0)
-                        .optJSONObject("generation")?.optString("name", "Unknown")
-                    generationMap[genName] ?: "Unknown"
+                        .optJSONObject("generation")?.optString("name", resources.getString(R.string.unknown))
+                    generationMap[genName] ?: resources.getString(R.string.unknown)
                 } else {
-                    "Unknown"
+                    resources.getString(R.string.unknown)
                 }
-            } ?: "Unknown"
+            } ?: resources.getString(R.string.unknown)
 
             val customGenerations = mapOf(
                 "master-ball" to 1,
@@ -49,16 +52,16 @@ class ItemDetailsFormatter {
                 (0 until effects.length()).joinToString("\n") { index ->
                     effects.getJSONObject(index).optString("effect", "")
                 }
-            } ?: "No effects available."
+            } ?: resources.getString(R.string.no_effects)
 
             return """
-                Nombre: $name
-                Categoría: $category
-                Coste: $cost
-                Fling-power: $flingPower
-                Generación: $effectiveGeneration
-                Atributos: $attributes
-                Effects:
+                ${resources.getString(R.string.name)}: $name
+                ${resources.getString(R.string.category)}: $category
+                ${resources.getString(R.string.cost)}: $cost
+                ${resources.getString(R.string.fling_power)}: $flingPower
+                ${resources.getString(R.string.generation)}: $effectiveGeneration
+                ${resources.getString(R.string.attributes)}: $attributes
+                ${resources.getString(R.string.effects)}:
                 $effectEntries
             """.trimIndent()
         }

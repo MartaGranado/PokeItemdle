@@ -13,6 +13,46 @@
     <string name="login_button">Login</string>
     <string name="register_button">Register</string>
     <string name="guest_button">Continue without an account</string>
-    <string name="pista_disponible_en_5">Pista disponible en: %d</string>
-    <string name="intentos_restantes">Intentos restantes: %d</string>
+    <string name="pista_disponible_en_5">Track available at: %d</string>
+    <string name="intentos_restantes">Remaining attempts: %d</string>
+    <string name="name">Name</string>
+    <string name="category">Category</string>
+    <string name="cost">Cost</string>
+    <string name="fling_power">Fling Power</string>
+    <string name="generation">Generation</string>
+    <string name="attributes">Attributes</string>
+    <string name="effects">Effects</string>
+    <string name="unknown">Unknown</string>
+    <string name="no_attributes">No attributes available.</string>
+    <string name="no_effects">No effects available.</string>
+    <string name="no_found">No objects were found.</string>
+    <string name="complete">Please complete all fields.</string>
+    <string name="cancel">Cancel</string>
+    <string name="Session_started">Session started as </string>
+    <string name="toast_registered">User registered successfully.</string>
+    <string name="toast_user_exists">Error: the user already exists.</string>
+    <string name="toast_logged_out">Session closed.</string>
+    <string name="spanish">Spanish</string>
+    <string name="english">English</string>
+    <string name="french">French</string>
+    <string name="select_language">Select a language.</string>
+    <string name="average_attempts">Your average number of attempts: %.2f</string>
+    <string name="not_enough_data">You do not yet have enough data to calculate an average.</string>
+    <string name="toast_must_log">You must log in to view your average attempts.</string>
+    <string name="error_invalid_credentials">Invalid credentials. Try again.</string>
+    <string name="toast_maximum_attempts">You have reached the maximum number of attempts.</string>
+    <string name="track_movement">Hint: The type of the move is </string>
+    <string name="wrong_attempt">Incorrect attempt. Keep trying. </string>
+    <string name="select_movement">Please select a move first.</string>
+    <string name="formatted_text">
+    Name: %1$s\n
+    Power: %2$s %3$s\n
+    Accuracy: %4$s %5$s\n
+    Type: %6$s %7$s\n
+    Damage Class: %8$s %9$s\n
+    Description: %10$s %11$s\n
+    _____________________________\n
+    Previous attempts: %12$s
+</string>
+
 </resources>

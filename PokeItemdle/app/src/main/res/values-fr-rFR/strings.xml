@@ -13,6 +13,46 @@
     <string name="login_button">S\'identifier</string>
     <string name="register_button">Registre</string>
     <string name="guest_button">Continuer sans compte</string>
-    <string name="pista_disponible_en_5">Pista disponible en: %d</string>
-    <string name="intentos_restantes">Intentos restantes: %d</string>
+    <string name="pista_disponible_en_5">Piste disponible sur: %d</string>
+    <string name="intentos_restantes">Tentatives restantes: %d</string>
+    <string name="name">Nom</string>
+    <string name="category">Catégorie</string>
+    <string name="cost">Coût</string>
+    <string name="fling_power">Pouvoir de lancement</string>
+    <string name="generation">Génération</string>
+    <string name="attributes">Attributs</string>
+    <string name="effects">Effets</string>
+    <string name="unknown">Étranger</string>
+    <string name="no_attributes">Aucun attribut disponible.</string>
+    <string name="no_effects">Aucun effet disponible.</string>
+    <string name="no_found">Aucun objet trouvé.</string>
+    <string name="complete">Veuillez compléter tous les champs.</string>
+    <string name="cancel">Annuler</string>
+    <string name="Session_started">Session commencée en tant que </string>
+    <string name="toast_registered">Utilisateur enregistré avec succès.</string>
+    <string name="toast_user_exists">Erreur : l\'utilisateur existe déjà.</string>
+    <string name="toast_logged_out">Session fermée.</string>
+    <string name="spanish">Espagnol</string>
+    <string name="english">Anglais</string>
+    <string name="french">Français</string>
+    <string name="select_language">Sélectionnez une langue.</string>
+    <string name="average_attempts">Votre nombre moyen de tentatives : %.2f</string>
+    <string name="not_enough_data">Vous n\'avez pas encore suffisamment de données pour calculer une moyenne.</string>
+    <string name="toast_must_log">Vous devez vous connecter pour voir votre moyenne de tentatives.</string>
+    <string name="error_invalid_credentials">Identifiants invalides. Réessayez.</string>
+    <string name="toast_maximum_attempts">Vous avez atteint le nombre maximum de tentatives.</string>
+    <string name="track_movement">Indice : Le type du mouvement est </string>
+    <string name="wrong_attempt">Tentative incorrecte. Continuez d\'essayer. </string>
+    <string name="select_movement">Veuillez d\'abord sélectionner un mouvement.</string>
+    <string name="formatted_text">
+    Nom: %1$s\n
+    Puissance: %2$s %3$s\n
+    Précision: %4$s %5$s\n
+    Type: %6$s %7$s\n
+    Classe de dégâts: %8$s %9$s\n
+    Description: %10$s %11$s\n
+    _____________________________\n
+    Tentatives précédentes: %12$s
+</string>
+
 </resources>

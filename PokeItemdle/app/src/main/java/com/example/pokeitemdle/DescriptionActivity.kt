@@ -51,8 +51,8 @@ class DescriptionActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = "PokeItemdle"
 
-        hintCountdownTextView = findViewById(R.id.hintCountdownTextView)
-        attemptsTextView = findViewById(R.id.attemptsTextView)
+        hintCountdownTextView = findViewById(R.id.attemptsTextView)
+        hintCountdownTextView.text = String.format(getString(R.string.intentos_restantes), attemptsRemaining)
 
         toolbar.setOnClickListener {
             val dbHelper = DatabaseHelper(this)
@@ -136,7 +136,7 @@ class DescriptionActivity : AppCompatActivity() {
                         loadingScreen.visibility = View.GONE
                         mainContent.visibility = View.VISIBLE
                     } else {
-                        showToast("No se encontraron objetos.")
+                        showToast(getString(R.string.no_found))
                     }
                 }
             },
@@ -153,7 +153,7 @@ class DescriptionActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         Log.d("MainActivity", "onCreateOptionsMenu() called")
         menuInflater.inflate(R.menu.main_menu, menu)
-        menu?.findItem(R.id.action_login)?.title = userEmail ?: "Login"
+        menu?.findItem(R.id.action_login)?.title = userEmail ?: getString(R.string.login_button)
         menu?.findItem(R.id.action_register)?.isVisible = userEmail == null // Hide "Registrar" if logged in
         return true
     }
@@ -161,23 +161,23 @@ class DescriptionActivity : AppCompatActivity() {
     private fun showRegisterDialog(onRegister: (Boolean) -> Unit) {
         Log.d("MainActivity", "showRegisterDialog: called")
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Registrar Usuario")
+        builder.setTitle(getString(R.string.register_button))
 
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         val emailInput = EditText(this).apply {
-            hint = "Correo Electrónico"
+            hint = "Email"
             inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
         }
         val passwordInput = EditText(this).apply {
-            hint = "Contraseña"
+            hint = getString(R.string.hint_password)
             inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
         }
         layout.addView(emailInput)
         layout.addView(passwordInput)
         builder.setView(layout)
 
-        builder.setPositiveButton("Registrar") { _, _ ->
+        builder.setPositiveButton(getString(R.string.register_button)) { _, _ ->
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
             val passwordDB = password.hashCode();
@@ -187,10 +187,10 @@ class DescriptionActivity : AppCompatActivity() {
                 onRegister(success)
                 userEmail = email
             } else {
-                showToast("Por favor completa todos los campos.")
+                showToast(getString(R.string.complete))
             }
         }
-        builder.setNegativeButton("Cancelar") { dialog, _ -> dialog.cancel() }
+        builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }
 
         builder.show()
     }
@@ -209,7 +209,7 @@ class DescriptionActivity : AppCompatActivity() {
                     showLoginDialog { email ->
                         userEmail = email
                         invalidateOptionsMenu()
-                        showToast("Sesión iniciada como $userEmail")
+                        showToast(getString(R.string.Session_started) + " $userEmail")
                     }
                 } else {
                     showAverageAttemptsDialog() // Mostrar promedio al hacer clic en el correo
@@ -219,7 +219,7 @@ class DescriptionActivity : AppCompatActivity() {
             R.id.action_register -> {
                 if (userEmail == null) {
                     showRegisterDialog { success ->
-                        if (success) showToast("Usuario registrado exitosamente.") else showToast("Error: el usuario ya existe.")
+                        if (success) showToast(getString(R.string.toast_registered)) else showToast(getString(R.string.toast_user_exists))
                     }
                 }
                 true
@@ -227,7 +227,7 @@ class DescriptionActivity : AppCompatActivity() {
             R.id.action_logout -> {
                 userEmail = null
                 invalidateOptionsMenu() // Refresh the menu
-                showToast("Sesión cerrada.")
+                showToast(getString(R.string.toast_logged_out))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -235,9 +235,11 @@ class DescriptionActivity : AppCompatActivity() {
     }
 
     private fun showLanguageDialog() {
-        val languages = arrayOf("Español", "Inglés", "Francés") // Los idiomas disponibles
+        val languages = arrayOf( getString(R.string.spanish),
+            getString(R.string.english),
+            getString(R.string.french)) // Los idiomas disponibles
         AlertDialog.Builder(this)
-            .setTitle("Selecciona un idioma")
+            .setTitle(getString(R.string.select_language))
             .setItems(languages) { _, which ->
                 when (which) {
                     0 -> setLocale("es") // Cambiar a Español
@@ -263,9 +265,9 @@ class DescriptionActivity : AppCompatActivity() {
             val dbHelper = DatabaseHelper(this)
             val average = dbHelper.getAverageAttempts(userEmail!!)
             val message = if (average > 0) {
-                "Tu número medio de intentos: %.2f".format(average)
+                getString(R.string.average_attempts).format(average)
             } else {
-                "Aún no tienes suficientes datos para calcular un promedio."
+                getString(R.string.not_enough_data)
             }
             AlertDialog.Builder(this)
                 .setTitle("Tu promedio de intentos")
@@ -273,7 +275,7 @@ class DescriptionActivity : AppCompatActivity() {
                 .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
                 .show()
         } else {
-            showToast("Debes iniciar sesión para ver tu promedio de intentos.")
+            showToast(getString(R.string.toast_must_log))
         }
     }
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
@@ -287,16 +289,16 @@ class DescriptionActivity : AppCompatActivity() {
     // Function to display the login dialog
     private fun showLoginDialog(onLogin: (String) -> Unit) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Iniciar Sesión")
+        builder.setTitle(getString(R.string.login_button))
 
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         val emailInput = EditText(this).apply {
-            hint = "Correo Electrónico"
+            hint = "Email"
             inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
         }
         val passwordInput = EditText(this).apply {
-            hint = "Contraseña"
+            hint = getString(R.string.hint_password)
             inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
         }
         layout.addView(emailInput)
@@ -312,10 +314,10 @@ class DescriptionActivity : AppCompatActivity() {
             if (validUser) {
                 onLogin(email)
             } else {
-                showToast("Credenciales inválidas. Inténtalo de nuevo.")
+                showToast(getString(R.string.error_invalid_credentials))
             }
         }
-        builder.setNegativeButton("Cancelar") { dialog, _ -> dialog.cancel() }
+        builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }
 
         builder.show()
     }
@@ -336,7 +338,7 @@ class DescriptionActivity : AppCompatActivity() {
 
 
             if (userAttempts > 20) {
-                showToast("Has alcanzado el número máximo de intentos.")
+                showToast(getString(R.string.toast_maximum_attempts))
                 fetchButton.isEnabled = false
                 gameOver = true
                 return@setOnClickListener
@@ -366,21 +368,15 @@ class DescriptionActivity : AppCompatActivity() {
                     if (userAttempts >= 5) {
                         val randomType = randomMoveDetails?.optJSONObject("type")?.optString("name", "Unknown") ?: "Desconocido"
                         val typeHint = "Pista: El tipo del movimiento es $randomType."
-                        hintCountdownTextView.text = typeHint
-                    }
-
-                    if(userAttempts >= 20){
-                        showLosingDialog()
-                        fetchButton.isEnabled = false
-                        gameOver = true
+                        descriptionTextView.text = typeHint
                     }
 
                     fetchMoveDetails(selectedMove, resultTextView, remoteAPI)
-                    showToast("Intento incorrecto. Sigue intentando.")
+                    showToast(getString(R.string.wrong_attempt))
                 }
                 autoCompleteTextView.setText("")
             } else {
-                showToast("Por favor, selecciona un movimiento primero.")
+                showToast(getString(R.string.select_movement))
             }
         }
     }
@@ -406,8 +402,8 @@ class DescriptionActivity : AppCompatActivity() {
         val name = selectedMove
         val randomPower = randomMoveDetails?.optInt("power", 0) ?: 0
         val randomAccuracy = randomMoveDetails?.optInt("accuracy", 0) ?: 0
-        val randomType = randomMoveDetails?.optJSONObject("type")?.optString("name", "Unknown") ?: "Unknown"
-        val randomDamageClass = randomMoveDetails?.optJSONObject("damage_class")?.optString("damage_class", "Unknown") ?: "Unknown"
+        val randomType = randomMoveDetails?.optJSONObject("type")?.optString("name", "Unknown") ?: getString(R.string.unknown)
+        val randomDamageClass = randomMoveDetails?.optJSONObject("damage_class")?.optString("damage_class", getString(R.string.unknown)) ?: getString(R.string.unknown)
 
         givenNameRecieveDetails(name, remoteAPI) { power, accuracy, type, damageClass, description ->
             dbHelper.insertAttemptMoves(
@@ -507,13 +503,13 @@ class DescriptionActivity : AppCompatActivity() {
         fetchedAccuracy: Int,
         previousTries: CharSequence
     ): SpannableString {
-        val name = details.optString("name", "Unknown")
+        val name = details.optString("name", getString(R.string.unknown))
         val power = details.optInt("power", 0)
         val accuracy = details.optInt("accuracy", 0)
-        val type = details.optJSONObject("type")?.optString("name", "Unknown") ?: "Unknown"
-        val randomType = randomMoveDetails?.optJSONObject("type")?.optString("name", "Unknown") ?: "Unknown"
-        val damageClass = details.optJSONObject("damage_class")?.optString("name", "Unknown") ?: "Unknown"
-        val randomDamageClass = randomMoveDetails?.optJSONObject("damage_class")?.optString("name", "Unknown") ?: "Unknown"
+        val type = details.optJSONObject("type")?.optString("name", getString(R.string.unknown)) ?: getString(R.string.unknown)
+        val randomType = randomMoveDetails?.optJSONObject("type")?.optString("name", getString(R.string.unknown)) ?: getString(R.string.unknown)
+        val damageClass = details.optJSONObject("damage_class")?.optString("name", getString(R.string.unknown)) ?: getString(R.string.unknown)
+        val randomDamageClass = randomMoveDetails?.optJSONObject("damage_class")?.optString("name", getString(R.string.unknown)) ?: getString(R.string.unknown)
 
         val powerComparison = when {
             fetchedPower < randomPower -> "$fetchedPower ^"
@@ -550,16 +546,16 @@ class DescriptionActivity : AppCompatActivity() {
         val damageClassSymbol = if (damageClass == randomDamageClass) "✅" else "❌"
         val descriptionSymbol = if (fetchedEffectEntries == randomEffectEntries) "✅" else "❌"
 
-        val formattedText = """
-    Nombre: $name
-    Poder: $powerComparison $powerSymbol
-    Accuracy: $accuracyComparison $accuracySymbol
-    Tipo: $type $typeSymbol
-    Damage-class: $damageClass $damageClassSymbol
-    Descripción: $fetchedEffectEntries $descriptionSymbol
-    _____________________________
-    Intentos anteriores: $previousTries
-    """.trimIndent()
+        val formattedText = getString(
+            R.string.formatted_text,
+            name,
+            powerComparison, powerSymbol,
+            accuracyComparison, accuracySymbol,
+            type, typeSymbol,
+            damageClass, damageClassSymbol,
+            fetchedEffectEntries, descriptionSymbol,
+            previousTries
+        )
 
         val spannable = SpannableString(formattedText)
 
