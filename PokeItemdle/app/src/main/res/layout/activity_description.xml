@@ -82,18 +82,19 @@
                 android:id="@+id/fetchButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/button_search"
-                app:layout_constraintTop_toBottomOf="@id/PruebaTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/resultTextView"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp" />
+                android:text="@string/button_search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/PruebaTextView"
+                app:layout_constraintVertical_bias="0.0" />
+
 
             <android.widget.ScrollView
                 android:id="@+id/scrollView2"
-                android:layout_width="243dp"
-                android:layout_height="241dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -109,6 +110,7 @@
                     android:padding="16dp"
                     android:textSize="16sp" />
             </android.widget.ScrollView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Pantalla de carga -->

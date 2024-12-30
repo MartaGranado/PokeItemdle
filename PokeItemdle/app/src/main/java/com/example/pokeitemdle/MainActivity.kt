@@ -576,7 +576,7 @@ class MainActivity : AppCompatActivity() {
     Categoría: $category $categorySymbol
     Fling-power: $fetchedFlingPower $flingSymbol
     Descripción: $fetchedEffectEntries $descriptionSymbol
-    _____________________________
+    _________________________
     Intentos anteriores: $previousTries
     """.trimIndent()
 

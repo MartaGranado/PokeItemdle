@@ -30,7 +30,7 @@ class DescriptionActivity : AppCompatActivity() {
     private lateinit var loadingScreen: FrameLayout
     private lateinit var mainContent: ConstraintLayout
     private var randomMove: String? = null
-    private var randomMoveDetails: JSONObject? = null // Para guardar los detalles del objeto random
+    private var randomMoveDetails: JSONObject? = null // Para guardar los detalles del movimiento random
     private var gameOver = false // Bandera para finalizar el juego
     private var userEmail: String? = null
     private var userAttempts = 0
