@@ -50,8 +50,8 @@ class DescriptionActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = "PokeItemdle"
 
-        hintCountdownTextView = findViewById(R.id.attemptsTextView)
-        hintCountdownTextView.text = String.format(getString(R.string.intentos_restantes), attemptsRemaining)
+        hintCountdownTextView = findViewById(R.id.hintCountdownTextView)
+        attemptsTextView = findViewById(R.id.attemptsTextView)
 
         toolbar.setOnClickListener {
             val dbHelper = DatabaseHelper(this)
@@ -93,9 +93,12 @@ class DescriptionActivity : AppCompatActivity() {
                             attemptsRemaining -= userAttempts
                             if(userAttempts > attemptsUntilHint) attemptsUntilHint = 0
                             else attemptsUntilHint -= userAttempts
+                        } else {
+                            randomMove = moves.random()
+                            dbHelper.insertMove(randomMove)
                         }
-                        randomMove = moves.random()
-                        dbHelper.insertMove(randomMove)
+                        attemptsTextView.text =String.format(getString(R.string.remaining_attempts), attemptsRemaining)
+                        hintCountdownTextView.text = String.format(getString(R.string.pista_disponible_en_5), attemptsUntilHint)
                         fetchRandomMoveDetails(randomMove ?: "", remoteAPI)
 
                         // Ocultar pantalla de carga y mostrar contenido principal
@@ -112,8 +115,6 @@ class DescriptionActivity : AppCompatActivity() {
                 loadingScreen.visibility = View.GONE // Ocultar pantalla de carga en caso de error
             }
         )
-        attemptsTextView = findViewById(R.id.hintCountdownTextView)
-        attemptsTextView.text = String.format(getString(R.string.pista_disponible_en_5), attemptsUntilHint)
         setupAutoCompleteTextView(remoteAPI, autoCompleteTextView)
         setupFetchButton(fetchButton, autoCompleteTextView, resultTextView, descriptionTextView, remoteAPI)
     }
@@ -316,8 +317,8 @@ class DescriptionActivity : AppCompatActivity() {
                 userAttempts++
                 attemptsRemaining--
                 attemptsUntilHint--
-                attemptsTextView.text = String.format(getString(R.string.pista_disponible_en_5), attemptsUntilHint)
-                hintCountdownTextView.text = String.format(getString(R.string.intentos_restantes), attemptsRemaining)
+                attemptsTextView.text = String.format(getString(R.string.intentos_restantes), attemptsRemaining)
+                hintCountdownTextView.text = String.format(getString(R.string.pista_disponible_en_5), attemptsUntilHint)
                 if (selectedMove.equals(randomMove, ignoreCase = true)) {
                     Log.d("MainActivity", "User selected correct move: $selectedMove")
                     fetchMoveDetails(selectedMove, resultTextView, remoteAPI)
