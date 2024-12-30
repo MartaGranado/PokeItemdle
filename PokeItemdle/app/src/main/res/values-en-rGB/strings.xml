@@ -4,7 +4,7 @@
     <string name="classic_button">Classic</string>
     <string name="descriptionButton">Description</string>
     <string name="toolbar_description">Tool bar</string>
-    <string name="remaining_attempts">Tries left: 3</string>
+    <string name="remaining_attempts">Tries left: %d</string>
     <string name="hint_select_object">Select an object</string>
     <string name="button_search">Search</string>
     <string name="item_image_description">Object Image</string>

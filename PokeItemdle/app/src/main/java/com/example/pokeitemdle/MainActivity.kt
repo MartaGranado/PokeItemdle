@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.example.pokeitemdle.networking.RemoteAPI
-import com.example.pokeitemdle.utils.ItemDetailsFormatter
 import org.json.JSONObject
 import android.text.InputType
 import com.example.pokeitemdle.database.DatabaseHelper
@@ -46,8 +45,6 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = "PokeItemdle"
 
         toolbar.setOnClickListener {
-            val dbHelper = DatabaseHelper(this)
-            dbHelper.insertObject(randomItem, userAttempts)
             // Al hacer clic en el título del Toolbar, lanzar PokeItemdleActivity
             val intent = Intent(this, PokeItemdleActivity::class.java)
             startActivity(intent)
@@ -82,12 +79,18 @@ class MainActivity : AppCompatActivity() {
                         if(dbHelper.getObject() != null){
                             randomItem = dbHelper.getObject()
                             userAttempts = dbHelper.getAttemptsObject()
-                            if(userAttempts > attemptsLeft) attemptsLeft = 0
-                            else attemptsLeft -= userAttempts
+                            if(userAttempts > attemptsLeft) {
+                                attemptsLeft = 0
+
+                            } else {
+                                attemptsLeft -= userAttempts
+                            }
                         } else {
                             randomItem = items.random()
+                            val dbHelper = DatabaseHelper(this)
+                            dbHelper.insertObject(randomItem)
                         }
-
+                        attemptsTextView.text = String.format(getString(R.string.remaining_attempts), attemptsLeft)
                         fetchRandomItemDetails(randomItem ?: "", remoteAPI)
 
                         // Ocultar pantalla de carga y mostrar contenido principal
@@ -104,6 +107,7 @@ class MainActivity : AppCompatActivity() {
                 loadingScreen.visibility = View.GONE // Ocultar pantalla de carga en caso de error
             }
         )
+
 
         setupAutoCompleteTextView(remoteAPI, autoCompleteTextView)
         setupFetchButton(fetchButton, autoCompleteTextView, resultTextView, itemImageView, attemptsTextView, remoteAPI)
@@ -268,7 +272,7 @@ class MainActivity : AppCompatActivity() {
         builder.setPositiveButton("Iniciar") { _, _ ->
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
-            val passwordDb = password.hashCode();
+            val passwordDb = password.hashCode()
             val dbHelper = DatabaseHelper(this)
             val validUser = dbHelper.loginUser(email, passwordDb)
             if (validUser) {
@@ -296,11 +300,11 @@ class MainActivity : AppCompatActivity() {
     ) {
         fetchButton.setOnClickListener {
             Log.d("MainActivity", "Fetch button clicked")
-            if (gameOver) return@setOnClickListener // Si el juego ha terminado, no hacer nada
-            userAttempts++
+            if (gameOver) return@setOnClickListener // Si el juego ha terminado, no hacer nad
 
             val selectedItem = autoCompleteTextView.text.toString()
             if (selectedItem.isNotEmpty()) {
+                userAttempts++
                 if (selectedItem.equals(randomItem, ignoreCase = true)) {
                     // Mostrar detalles del objeto correcto
                     Log.d("MainActivity", "User selected correct item: $selectedItem")
@@ -311,13 +315,15 @@ class MainActivity : AppCompatActivity() {
                     if (!userEmail.isNullOrEmpty()) {
                         val dbHelper = DatabaseHelper(this)
 
-                        val name = selectedItem
-// Asegurarse de que randomCost no sea nulo, se establece en 0 si es nulo
+                        // Asegurarse de que randomCost no sea nulo, se establece en 0 si es nulo
                         val randomCost = randomItemDetails?.optInt("cost", 0) ?: 0
                         val randomCategory = randomItemDetails?.optJSONObject("category")?.optString("name", "Unknown") ?: "Unknown"
                         val randomFlingPower = randomItemDetails?.optInt("fling_power", 0) ?: 0
 
-                        givenNameRecieveDetails(name, remoteAPI) { cost, category, flingPower, description ->
+                        givenNameRecieveDetails(
+                            selectedItem,
+                            remoteAPI
+                        ) { cost, category, flingPower, description ->
                             // Asegúrate de que cost es un valor Int no nulo, y compararlo con randomCost
                             val costComparison = when {
                                 cost < randomCost -> "cost ^"
@@ -326,11 +332,14 @@ class MainActivity : AppCompatActivity() {
                             }
 
                             // Log para depuración antes de insertar en la base de datos
-                            Log.d("MainActivity", "Inserting attempt with cost: $cost, category: $category, flingPower: $flingPower, description: $description")
+                            Log.d(
+                                "MainActivity",
+                                "Inserting attempt with cost: $cost, category: $category, flingPower: $flingPower, description: $description"
+                            )
 
                             val insertSuccess = dbHelper.insertAttempt(
                                 userEmail = userEmail,
-                                itemName = name,
+                                itemName = selectedItem,
                                 cost = cost.toString(), // Convierte cost a String
                                 costCorrect = cost.toInt() == randomCost,
                                 category = category,
@@ -338,7 +347,10 @@ class MainActivity : AppCompatActivity() {
                                 flingPower = flingPower.toString(), // Convierte flingPower a String
                                 flingPowerCorrect = flingPower == randomFlingPower,
                                 description = description,
-                                descriptionCorrect = description == randomItemDetails?.optString("description", "")
+                                descriptionCorrect = description == randomItemDetails?.optString(
+                                    "description",
+                                    ""
+                                )
                             )
 
                             // Verifica si la inserción fue exitosa
@@ -379,8 +391,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     if (attemptsLeft > 0) {
-                        val text = "Intentos restantes: $attemptsLeft"
-                        attemptsTextView.text = text
+                        attemptsTextView.text = String.format(getString(R.string.remaining_attempts), attemptsLeft)
                         fetchItemDetails(selectedItem, resultTextView, itemImageView, remoteAPI)
                     } else {
                         // Dividir las pistas en parte1 y parte2

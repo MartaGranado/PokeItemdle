@@ -4,7 +4,7 @@
     <string name="classic_button">Clasique</string>
     <string name="descriptionButton">Description</string>
     <string name="toolbar_description">Barre d\'outils</string>
-    <string name="remaining_attempts">Tentatives restantes</string>
+    <string name="remaining_attempts">Tentatives restantes: %d</string>
     <string name="hint_select_object">Sélectionnez un objet</string>
     <string name="button_search">Chercher</string>
     <string name="item_image_description">Image d\'Objet</string>

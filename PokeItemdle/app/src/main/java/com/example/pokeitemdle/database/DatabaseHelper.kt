@@ -9,7 +9,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     companion object {
         private const val DATABASE_NAME = "UserDatabase.db"
-        private const val DATABASE_VERSION = 5
+        private const val DATABASE_VERSION = 6
 
         // Table and column names
         const val TABLE_USERS = "users"
@@ -79,21 +79,38 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     fun insertObject(
         objectToInsert: String?,
-        attemptsToInsert: Int
     ) {
         val db = this.writableDatabase
-        val contentValues = ContentValues().apply { put("object",objectToInsert); put("attempts", attemptsToInsert )}
+        val contentValues = ContentValues().apply { put("object",objectToInsert)}
         db.insert("objectTable", null,  contentValues)
     }
 
+    fun insertAttemptsObject(
+        attemptsToInsert: Int,
+        object2: String?
+        ){
+        val db = this.writableDatabase
+        val contentValues = ContentValues().apply { put("attempts", attemptsToInsert) }
+        db.update("objectTable", contentValues, "object = ?", arrayOf(object2))
+
+    }
 
     fun insertMove(
         moveToInsert:String?,
-        attemptsToInsert: Int
     ) {
         val db = this.writableDatabase
-        val contentValues = ContentValues().apply { put("move",moveToInsert); put("attempts", attemptsToInsert) }
+        val contentValues = ContentValues().apply { put("move",moveToInsert)}
         db.insert("move", null,  contentValues)
+    }
+
+    fun insertAttemptsMove(
+        attemptsToInsert: Int,
+        move2: String?
+    ){
+        val db = this.writableDatabase
+        val contentValues = ContentValues().apply { put("attempts", attemptsToInsert) }
+        db.update("move", contentValues, "move = ?", arrayOf(move2))
+
     }
 
     fun getObject(): String? {
@@ -110,7 +127,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     fun getAttemptsObject(): Int {
         val db = this.readableDatabase
-        val cursor = db.rawQuery("SELECT * FROM objectTable", null)
+        val cursor = db.rawQuery("SELECT attempts FROM objectTable", null)
         return if (cursor.moveToFirst()) {
             cursor.getInt(0)
         } else {
@@ -134,7 +151,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     fun getAttemptsMove(): Int {
         val db = this.readableDatabase
-        val cursor = db.rawQuery("SELECT * FROM move", null)
+        val cursor = db.rawQuery("SELECT attempts FROM move", null)
         return if (cursor.moveToFirst()) {
             cursor.getInt(0)
         } else {
@@ -142,6 +159,16 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }.also {
             cursor.close()
         }
+    }
+
+    fun dropObjectTable(){
+        val db = this.writableDatabase
+        db.execSQL("DELETE FROM objectTable")
+    }
+
+    fun dropMove(){
+        val db = this.writableDatabase
+        db.execSQL("DELETE FROM move")
     }
     // Método para insertar un intento
     fun insertAttempt(

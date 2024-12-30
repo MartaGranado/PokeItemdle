@@ -50,9 +50,6 @@ class DescriptionActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = "PokeItemdle"
 
-        attemptsTextView = findViewById(R.id.hintCountdownTextView)
-        attemptsTextView.text = String.format(getString(R.string.pista_disponible_en_5), attemptsUntilHint)
-
         hintCountdownTextView = findViewById(R.id.attemptsTextView)
         hintCountdownTextView.text = String.format(getString(R.string.intentos_restantes), attemptsRemaining)
 
@@ -114,7 +111,8 @@ class DescriptionActivity : AppCompatActivity() {
                 loadingScreen.visibility = View.GONE // Ocultar pantalla de carga en caso de error
             }
         )
-
+        attemptsTextView = findViewById(R.id.hintCountdownTextView)
+        attemptsTextView.text = String.format(getString(R.string.pista_disponible_en_5), attemptsUntilHint)
         setupAutoCompleteTextView(remoteAPI, autoCompleteTextView)
         setupFetchButton(fetchButton, autoCompleteTextView, resultTextView, descriptionTextView, remoteAPI)
     }
@@ -303,11 +301,7 @@ class DescriptionActivity : AppCompatActivity() {
         fetchButton.setOnClickListener {
             Log.d("MainActivity", "Fetch button clicked")
             if (gameOver) return@setOnClickListener // Si el juego ha terminado, no hacer nada
-            userAttempts++
-            attemptsRemaining--
-            attemptsUntilHint--
-            attemptsTextView.text = String.format(getString(R.string.pista_disponible_en_5), attemptsUntilHint)
-            hintCountdownTextView.text = String.format(getString(R.string.intentos_restantes), attemptsRemaining)
+
 
             if (userAttempts > 20) {
                 showToast("Has alcanzado el número máximo de intentos.")
@@ -318,6 +312,11 @@ class DescriptionActivity : AppCompatActivity() {
 
             val selectedMove = autoCompleteTextView.text.toString()
             if (selectedMove.isNotEmpty()) {
+                userAttempts++
+                attemptsRemaining--
+                attemptsUntilHint--
+                attemptsTextView.text = String.format(getString(R.string.pista_disponible_en_5), attemptsUntilHint)
+                hintCountdownTextView.text = String.format(getString(R.string.intentos_restantes), attemptsRemaining)
                 if (selectedMove.equals(randomMove, ignoreCase = true)) {
                     Log.d("MainActivity", "User selected correct move: $selectedMove")
                     fetchMoveDetails(selectedMove, resultTextView, remoteAPI)
