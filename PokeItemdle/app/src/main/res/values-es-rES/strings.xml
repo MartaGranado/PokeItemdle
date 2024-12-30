@@ -66,5 +66,7 @@
     <string name="lost_game">¡Perdiste! El movimiento era: %s</string>
     <string name="try_again">¡Inténtalo de nuevo!</string>
     <string name="you_won">¡Has ganado!</string>
-    <string name="winning_dialog">Vous avez réussi en %d tentatives</string>
+    <string name="winning_dialog">Has tenido éxito en %d intentos</string>
+    <string name="start">Iniciar</string>
+    <string name="no_description">Descripción no disponible.</string>
 </resources>

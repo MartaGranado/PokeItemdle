@@ -66,4 +66,6 @@
     <string name="try_again">Essayez de nouveau!</string>
     <string name="you_won">Vous avez gagné!</string>
     <string name="winning_dialog">Vous avez réussi en %d tentatives</string>
+    <string name="start">Commencer</string>
+    <string name="no_description">Description non disponible.</string>
 </resources>

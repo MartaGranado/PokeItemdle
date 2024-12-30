@@ -292,7 +292,7 @@ class DescriptionActivity : AppCompatActivity() {
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         menu?.findItem(R.id.action_register)?.isVisible = userEmail == null // Show "Registrar" if not logged in
         menu?.findItem(R.id.action_logout)?.isVisible = userEmail != null // Show "Cerrar sesión" if logged in
-        menu?.findItem(R.id.action_login)?.title = userEmail ?: "Login" // Update login title
+        menu?.findItem(R.id.action_login)?.title = userEmail ?: getString(R.string.login_button) // Update login title
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -316,7 +316,7 @@ class DescriptionActivity : AppCompatActivity() {
         layout.addView(passwordInput)
         builder.setView(layout)
 
-        builder.setPositiveButton("Iniciar") { _, _ ->
+        builder.setPositiveButton(getString(R.string.start)) { _, _ ->
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
             val passwordDb = password.hashCode();
@@ -377,8 +377,8 @@ class DescriptionActivity : AppCompatActivity() {
                     Log.d("MainActivity", "User selected incorrect item: $selectedMove")
 
                     if (userAttempts >= 5) {
-                        val randomType = randomMoveDetails?.optJSONObject("type")?.optString("name", "Unknown") ?: "Desconocido"
-                        val typeHint = "Pista: El tipo del movimiento es $randomType."
+                        val randomType = randomMoveDetails?.optJSONObject("type")?.optString("name", getString(R.string.unknown))
+                        val typeHint = getString(R.string.track_movement) + " $randomType."
                         hintCountdownTextView.text = typeHint
                     }
 
@@ -400,7 +400,7 @@ class DescriptionActivity : AppCompatActivity() {
     }
 
     private fun showLosingDialog() {
-       runOnUiThread {
+        runOnUiThread {
             val dialog = AlertDialog.Builder(this)
                 .setTitle(String.format(getString(R.string.lost_game), randomMove))
                 .setMessage(R.string.try_again)
@@ -543,17 +543,17 @@ class DescriptionActivity : AppCompatActivity() {
 
         val fetchedEffectEntries = details.optJSONArray("effect_entries")?.let { effects ->
             (0 until effects.length()).joinToString("\n") { index ->
-                effects.getJSONObject(index).optString("effect", "No description available.").split(":").getOrNull(0)?.trim()
-                    ?: "No description available."
+                effects.getJSONObject(index).optString("effect", getString(R.string.no_description)).split(":").getOrNull(0)?.trim()
+                    ?: getString(R.string.no_description)
             }
-        } ?: "No description available."
+        } ?: getString(R.string.no_description)
 
         val randomEffectEntries = randomMoveDetails?.optJSONArray("effect_entries")?.let { effects ->
             (0 until effects.length()).joinToString("\n") { index ->
-                effects.getJSONObject(index).optString("effect", "No description available.").split(":").getOrNull(0)?.trim()
-                    ?: "No description available."
+                effects.getJSONObject(index).optString("effect", getString(R.string.no_description)).split(":").getOrNull(0)?.trim()
+                    ?: getString(R.string.no_description)
             }
-        } ?: "No description available."
+        } ?: getString(R.string.no_description)
 
         val effectEntriesColor = if (fetchedEffectEntries == randomEffectEntries) Color.GREEN else Color.RED
 
@@ -650,7 +650,7 @@ class DescriptionActivity : AppCompatActivity() {
         runOnUiThread {
             val dialog = AlertDialog.Builder(this)
                 .setTitle(R.string.you_won)
-                .setMessage("Lo lograste en $attempts intentos.")
+                .setMessage(getString(R.string.winning_dialog))
                 .setMessage(String.format(getString(R.string.winning_dialog), attempts))
                 .setPositiveButton("OK") { _, _ ->
                     // Reiniciar juego
