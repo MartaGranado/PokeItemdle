@@ -1,9 +1,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.PokeItemdle" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Color de íconos y texto sobre colorPrimary -->
+        <item name="colorOnPrimary">@android:color/white</item>
+        <!-- Estilo para íconos del menú de desbordamiento -->
+        <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
     </style>
 
+    <style name="OverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@android:color/white</item>
+    </style>
     <style name="Theme.PokeItemdle" parent="Base.Theme.PokeItemdle" />
 </resources>
