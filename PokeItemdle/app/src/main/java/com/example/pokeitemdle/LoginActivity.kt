@@ -75,8 +75,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         // Validación de la contraseña
-        val passwordRegex = Regex("^(?=.*[A-Z])(?=.*\\d).{6,}\$")
-        if (!passwordRegex.matches(password)) {
+        if (password.length < 6) {
             Toast.makeText(this,R.string.wrong_password, Toast.LENGTH_SHORT).show()
             return false
         }

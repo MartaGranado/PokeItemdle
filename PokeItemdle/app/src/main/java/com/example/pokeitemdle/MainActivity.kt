@@ -116,6 +116,16 @@ class MainActivity : AppCompatActivity() {
                             userAttempts = dbHelper.getAttemptsObject()
                             if (userAttempts > attemptsLeft) {
                                 attemptsLeft = 0
+                                val effectEntries = randomItemDetails?.let { details ->
+                                    details.optJSONArray("effect_entries")?.let { effects ->
+                                        (0 until effects.length()).joinToString("\n") { index ->
+                                            val effectText = effects.getJSONObject(index).optString("effect", "No effect available.")
+                                            effectText.split(":").getOrNull(1)?.trim() ?: "No clue available."
+                                        }
+                                    } ?: "No clues available."
+                                } ?: "No clues available."
+                                val text = "Pista: $effectEntries"
+                                attemptsTextView.text = text
                             } else {
                                 attemptsLeft -= userAttempts
                             }
@@ -335,6 +345,7 @@ class MainActivity : AppCompatActivity() {
             if (gameOver) return@setOnClickListener // Si el juego ha terminado, no hacer nad
 
             val selectedItem = autoCompleteTextView.text.toString()
+
             if (selectedItem.isNotEmpty()) {
                 userAttempts++
                 if (selectedItem.equals(randomItem, ignoreCase = true)) {

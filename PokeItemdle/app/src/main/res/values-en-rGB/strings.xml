@@ -55,8 +55,7 @@
     Previous attempts: %12$s
 </string>
     <string name="wrong_email">The email must match the format @gmail.com</string>
-    <string name="wrong_password">The password must contain at least 6 characters, including at least one Uppercase
-        and one number</string>
+    <string name="wrong_password">The password must contain at least 6 characters</string>
     <string name="successful_login">Successful login!</string>
     <string name="unsuccessful_login"> Wrong user or password!</string>
     <string name="successful_register">Successful register!</string>

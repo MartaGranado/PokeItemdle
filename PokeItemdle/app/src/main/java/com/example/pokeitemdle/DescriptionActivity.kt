@@ -127,7 +127,12 @@ class DescriptionActivity : AppCompatActivity() {
                             randomMove = dbHelper.getMove()
                             userAttempts = dbHelper.getAttemptsMove()
                             attemptsRemaining -= userAttempts
-                            if (userAttempts > attemptsUntilHint) attemptsUntilHint = 0
+                            if (userAttempts > attemptsUntilHint){
+                                attemptsUntilHint = 0
+                                val randomType = randomMoveDetails?.optJSONObject("type")?.optString("name", "Unknown") ?: "Desconocido"
+                                val typeHint = "Pista: El tipo del movimiento es $randomType."
+                                hintCountdownTextView.text = typeHint
+                            }
                             else attemptsUntilHint -= userAttempts
                         } else {
                             randomMove = moves.random()

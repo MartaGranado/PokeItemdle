@@ -55,8 +55,7 @@
     Tentatives précédentes: %12$s
 </string>
     <string name="wrong_email">L\'email doive avoir le format *@gmail.com </string>
-    <string name="wrong_password">Le mot de passe doit contenir au moins 6 caractères,
-    dont au moins un doit être une lettre majuscule et un doit être un chiffre</string>
+    <string name="wrong_password">Le mot de passe doit contenir au moins 6 caractèrese</string>
     <string name="successful_login">Connexion réussie!</string>
     <string name="unsuccessful_login">Mauvais user ou mot de passe!</string>
     <string name="successful_register">Registre réussie!</string>
