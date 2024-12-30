@@ -580,15 +580,15 @@ class MainActivity : AppCompatActivity() {
         val flingSymbol = if (fetchedFlingPower == randomFlingPower) "✅" else "❌"
         val descriptionSymbol = if (fetchedEffectEntries == randomEffectEntries) "✅" else "❌"
 
-        val formattedText = """
-    Nombre: $name
-    Coste: $costComparison $costSymbol
-    Categoría: $category $categorySymbol
-    Fling-power: $fetchedFlingPower $flingSymbol
-    Descripción: $fetchedEffectEntries $descriptionSymbol
-    _________________________
-    Intentos anteriores: $previousTries
-    """.trimIndent()
+        val formattedText = getString(
+            R.string.formatted_text_description,
+            name,
+            costComparison, costSymbol,
+            category, categorySymbol,
+            flingComparison, flingSymbol,
+            fetchedEffectEntries, descriptionSymbol,
+            previousTries
+        )
 
         val spannable = SpannableString(formattedText)
 
