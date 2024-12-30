@@ -114,7 +114,8 @@ class MainActivity : AppCompatActivity() {
                         if (dbHelper.getObject() != null) {
                             randomItem = dbHelper.getObject()
                             userAttempts = dbHelper.getAttemptsObject()
-                            if (userAttempts > attemptsLeft) {
+                            if (userAttempts >= attemptsLeft) {
+                                fetchRandomItemDetails(randomItem ?: "", remoteAPI)
                                 attemptsLeft = 0
                                 val effectEntries = randomItemDetails?.let { details ->
                                     details.optJSONArray("effect_entries")?.let { effects ->
@@ -133,7 +134,7 @@ class MainActivity : AppCompatActivity() {
                             randomItem = items.random()
                             dbHelper.insertObject(randomItem)
                         }
-                        attemptsTextView.text = String.format(getString(R.string.remaining_attempts), attemptsLeft)
+                        if(attemptsLeft != 0) attemptsTextView.text = String.format(getString(R.string.remaining_attempts), attemptsLeft)
                         fetchRandomItemDetails(randomItem ?: "", remoteAPI)
 
                         // Hide loading screen and show main content
@@ -614,7 +615,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         // Aplicar color al Fling-power
-        val flingStartIndex = formattedText.indexOf("Fling-power:") + "Fling-power: ".length
+        val flingStartIndex = formattedText.indexOf(flingComparison)
         val flingEndIndex = flingStartIndex + flingComparison.length
         val flingColor = if (fetchedFlingPower == randomFlingPower) Color.GREEN else Color.RED
         spannable.setSpan(
