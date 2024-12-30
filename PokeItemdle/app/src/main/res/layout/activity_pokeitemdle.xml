@@ -20,6 +20,15 @@
             layout="@layout/loading_screen" />
     </LinearLayout>
 
+    <!-- Add an ImageView on top of the TextView -->
+
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="139dp"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/pokeitemdle_logo" />
+
     <TextView
         android:id="@+id/welcomeTextView"
         android:layout_width="wrap_content"
