@@ -20,6 +20,7 @@ import com.example.pokeitemdle.networking.RemoteAPI
 import com.example.pokeitemdle.utils.ItemDetailsFormatter
 import org.json.JSONObject
 import android.text.InputType
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import com.example.pokeitemdle.database.DatabaseHelper
 import java.util.Locale
@@ -38,27 +39,27 @@ class DescriptionActivity : AppCompatActivity() {
     private var attemptsRemaining = 20
     private var attemptsUntilHint = 5
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_description)
         userEmail = intent.getStringExtra("email")
-        if (userEmail.isNullOrEmpty()) userEmail=null
-        Log.d("MainActivity", "onCreate() called")
+        if (userEmail.isNullOrEmpty()) userEmail = null
+        Log.d("DescriptionActivity", "onCreate() called")
 
-        // Configurar el Toolbar
+        // Set up the Toolbar
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = "PokeItemdle"
 
-        hintCountdownTextView = findViewById(R.id.attemptsTextView)
+        attemptsTextView = findViewById(R.id.attemptsTextView)
+        hintCountdownTextView = findViewById(R.id.hintCountdownTextView)
         hintCountdownTextView.text = String.format(getString(R.string.intentos_restantes), attemptsRemaining)
 
         toolbar.setOnClickListener {
             val dbHelper = DatabaseHelper(this)
             dbHelper.insertAttemptsMove(userAttempts, randomMove)
 
-            // Al hacer clic en el título del Toolbar, lanzar PokeItemdleActivity
+            // Launch PokeItemdleActivity when the toolbar title is clicked
             val intent = Intent(this, PokeItemdleActivity::class.java)
             startActivity(intent)
         }
@@ -82,14 +83,14 @@ class DescriptionActivity : AppCompatActivity() {
 
                     if (!firstSuggestion.isNullOrEmpty() && autoCompleteTextView.text.toString() != firstSuggestion) {
                         autoCompleteTextView.setText(firstSuggestion)
-                        autoCompleteTextView.setSelection(firstSuggestion.length) // Cursor al final
+                        autoCompleteTextView.setSelection(firstSuggestion.length) // Move cursor to end
                     }
                 }
 
                 autoCompleteTextView.dismissDropDown()
                 fetchButton.performClick()
 
-                // Resetear la bandera después de una breve pausa
+                // Reset flag after a brief delay
                 autoCompleteTextView.postDelayed({
                     isActionPerformed = false
                 }, 300)
@@ -100,16 +101,20 @@ class DescriptionActivity : AppCompatActivity() {
             }
         }
 
-
         val remoteAPI = RemoteAPI()
 
         mainContent.visibility = View.GONE
         loadingScreen.visibility = View.VISIBLE
 
+        // Start the rotation animation
+        val loadingImageView = findViewById<ImageView>(R.id.loadingImageView)
+        val rotationAnimation = AnimationUtils.loadAnimation(this, R.anim.rotation_animation)
+        loadingImageView.startAnimation(rotationAnimation)
+
         remoteAPI.getAllMoves(
             onSuccess = { moves ->
                 runOnUiThread {
-                    Log.d("MainActivity", "Fetched items successfully: ${moves.size}")
+                    Log.d("DescriptionActivity", "Fetched moves successfully: ${moves.size}")
                     if (moves.isNotEmpty()) {
                         val adapter = ArrayAdapter(
                             this,
@@ -118,21 +123,21 @@ class DescriptionActivity : AppCompatActivity() {
                         )
                         val dbHelper = DatabaseHelper(this)
                         autoCompleteTextView.setAdapter(adapter)
-                        if(dbHelper.getMove() != null){
+                        if (dbHelper.getMove() != null) {
                             randomMove = dbHelper.getMove()
                             userAttempts = dbHelper.getAttemptsMove()
                             attemptsRemaining -= userAttempts
-                            if(userAttempts > attemptsUntilHint) attemptsUntilHint = 0
+                            if (userAttempts > attemptsUntilHint) attemptsUntilHint = 0
                             else attemptsUntilHint -= userAttempts
                         } else {
                             randomMove = moves.random()
                             dbHelper.insertMove(randomMove)
                         }
-                        attemptsTextView.text =String.format(getString(R.string.remaining_attempts), attemptsRemaining)
+                        attemptsTextView.text = String.format(getString(R.string.remaining_attempts), attemptsRemaining)
                         hintCountdownTextView.text = String.format(getString(R.string.pista_disponible_en_5), attemptsUntilHint)
                         fetchRandomMoveDetails(randomMove ?: "", remoteAPI)
 
-                        // Ocultar pantalla de carga y mostrar contenido principal
+                        // Hide loading screen and show main content
                         loadingScreen.visibility = View.GONE
                         mainContent.visibility = View.VISIBLE
                     } else {
@@ -141,11 +146,12 @@ class DescriptionActivity : AppCompatActivity() {
                 }
             },
             onError = { errorMessage ->
-                Log.e("MainActivity", "Error fetching items: $errorMessage")
+                Log.e("DescriptionActivity", "Error fetching moves: $errorMessage")
                 showToast("Error: $errorMessage")
-                loadingScreen.visibility = View.GONE // Ocultar pantalla de carga en caso de error
+                loadingScreen.visibility = View.GONE // Hide loading screen on error
             }
         )
+
         setupAutoCompleteTextView(remoteAPI, autoCompleteTextView)
         setupFetchButton(fetchButton, autoCompleteTextView, resultTextView, remoteAPI)
     }

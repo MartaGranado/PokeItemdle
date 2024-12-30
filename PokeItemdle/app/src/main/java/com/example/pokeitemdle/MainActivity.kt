@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.example.pokeitemdle.networking.RemoteAPI
 import org.json.JSONObject
 import android.text.InputType
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import com.example.pokeitemdle.database.DatabaseHelper
 import java.util.Locale
@@ -27,9 +28,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var loadingScreen: FrameLayout
     private lateinit var mainContent: ConstraintLayout
     private var randomItem: String? = null
-    private var attemptsLeft = 3 // Número de intentos iniciales hasta primera pista
-    private var randomItemDetails: JSONObject? = null // Para guardar los detalles del objeto random
-    private var gameOver = false // Bandera para finalizar el juego
+    private var attemptsLeft = 3
+    private var randomItemDetails: JSONObject? = null
+    private var gameOver = false
     private var userEmail: String? = null
     private var userAttempts = 0
 
@@ -37,16 +38,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         userEmail = intent.getStringExtra("email")
-        if (userEmail.isNullOrEmpty()) userEmail=null
+        if (userEmail.isNullOrEmpty()) userEmail = null
         Log.d("MainActivity", "onCreate() called")
 
-        // Configurar el Toolbar
+        // Toolbar setup
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = "PokeItemdle"
 
         toolbar.setOnClickListener {
-            // Al hacer clic en el título del Toolbar, lanzar PokeItemdleActivity
             val dbHelper = DatabaseHelper(this)
             dbHelper.insertAttemptsObject(userAttempts, randomItem)
             val intent = Intent(this, PokeItemdleActivity::class.java)
@@ -67,21 +67,18 @@ class MainActivity : AppCompatActivity() {
         autoCompleteTextView.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE && !isActionPerformed) {
                 isActionPerformed = true
-
                 val adapter = autoCompleteTextView.adapter
                 if (adapter != null && adapter.count > 0) {
                     val firstSuggestion = adapter.getItem(0) as? String
-
                     if (!firstSuggestion.isNullOrEmpty() && autoCompleteTextView.text.toString() != firstSuggestion) {
                         autoCompleteTextView.setText(firstSuggestion)
-                        autoCompleteTextView.setSelection(firstSuggestion.length) // Cursor al final
+                        autoCompleteTextView.setSelection(firstSuggestion.length)
                     }
                 }
 
                 autoCompleteTextView.dismissDropDown()
                 fetchButton.performClick()
 
-                // Resetear la bandera después de una breve pausa
                 autoCompleteTextView.postDelayed({
                     isActionPerformed = false
                 }, 300)
@@ -97,6 +94,11 @@ class MainActivity : AppCompatActivity() {
         mainContent.visibility = View.GONE
         loadingScreen.visibility = View.VISIBLE
 
+        // Start rotation animation on loading screen image
+        val loadingImageView = findViewById<ImageView>(R.id.loadingImageView)
+        val rotationAnimation = AnimationUtils.loadAnimation(this, R.anim.rotation_animation)
+        loadingImageView.startAnimation(rotationAnimation)
+
         remoteAPI.getAllItems(
             onSuccess = { items ->
                 runOnUiThread {
@@ -109,12 +111,11 @@ class MainActivity : AppCompatActivity() {
                         )
                         autoCompleteTextView.setAdapter(adapter)
                         val dbHelper = DatabaseHelper(this)
-                        if(dbHelper.getObject() != null){
+                        if (dbHelper.getObject() != null) {
                             randomItem = dbHelper.getObject()
                             userAttempts = dbHelper.getAttemptsObject()
-                            if(userAttempts > attemptsLeft) {
+                            if (userAttempts > attemptsLeft) {
                                 attemptsLeft = 0
-
                             } else {
                                 attemptsLeft -= userAttempts
                             }
@@ -125,7 +126,7 @@ class MainActivity : AppCompatActivity() {
                         attemptsTextView.text = String.format(getString(R.string.remaining_attempts), attemptsLeft)
                         fetchRandomItemDetails(randomItem ?: "", remoteAPI)
 
-                        // Ocultar pantalla de carga y mostrar contenido principal
+                        // Hide loading screen and show main content
                         loadingScreen.visibility = View.GONE
                         mainContent.visibility = View.VISIBLE
                     } else {
@@ -136,14 +137,15 @@ class MainActivity : AppCompatActivity() {
             onError = { errorMessage ->
                 Log.e("MainActivity", "Error fetching items: $errorMessage")
                 showToast("Error: $errorMessage")
-                loadingScreen.visibility = View.GONE // Ocultar pantalla de carga en caso de error
+                loadingScreen.visibility = View.GONE // Hide loading screen on error
             }
         )
-
 
         setupAutoCompleteTextView(remoteAPI, autoCompleteTextView)
         setupFetchButton(fetchButton, autoCompleteTextView, resultTextView, itemImageView, attemptsTextView, remoteAPI)
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         Log.d("MainActivity", "onCreateOptionsMenu() called")
