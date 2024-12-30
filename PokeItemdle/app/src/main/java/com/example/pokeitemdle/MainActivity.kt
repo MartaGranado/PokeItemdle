@@ -584,7 +584,7 @@ class MainActivity : AppCompatActivity() {
             name,
             costComparison, costSymbol,
             category, categorySymbol,
-            fetchedFlingPower, flingSymbol,
+            flingComparison, flingSymbol,
             fetchedEffectEntries, descriptionSymbol,
             previousTries
         )
