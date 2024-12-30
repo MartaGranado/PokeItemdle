@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.example.pokeitemdle.networking.RemoteAPI
 import org.json.JSONObject
 import android.text.InputType
+import android.view.inputmethod.EditorInfo
 import com.example.pokeitemdle.database.DatabaseHelper
 import java.util.Locale
 
@@ -60,6 +61,36 @@ class MainActivity : AppCompatActivity() {
         val fetchButton = findViewById<Button>(R.id.fetchButton)
         val resultTextView = findViewById<TextView>(R.id.resultTextView)
         val itemImageView = findViewById<ImageView>(R.id.itemImageView)
+
+        var isActionPerformed = false
+
+        autoCompleteTextView.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE && !isActionPerformed) {
+                isActionPerformed = true
+
+                val adapter = autoCompleteTextView.adapter
+                if (adapter != null && adapter.count > 0) {
+                    val firstSuggestion = adapter.getItem(0) as? String
+
+                    if (!firstSuggestion.isNullOrEmpty() && autoCompleteTextView.text.toString() != firstSuggestion) {
+                        autoCompleteTextView.setText(firstSuggestion)
+                        autoCompleteTextView.setSelection(firstSuggestion.length) // Cursor al final
+                    }
+                }
+
+                autoCompleteTextView.dismissDropDown()
+                fetchButton.performClick()
+
+                // Resetear la bandera después de una breve pausa
+                autoCompleteTextView.postDelayed({
+                    isActionPerformed = false
+                }, 300)
+
+                true
+            } else {
+                false
+            }
+        }
 
         val remoteAPI = RemoteAPI()
 

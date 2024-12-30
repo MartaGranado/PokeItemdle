@@ -20,7 +20,8 @@
             android:exported="false" />
         <activity
             android:name=".DescriptionActivity"
-            android:exported="false" /> <!-- LoginActivity with export flag -->
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden"/> <!-- LoginActivity with export flag -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">

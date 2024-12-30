@@ -20,6 +20,7 @@ import com.example.pokeitemdle.networking.RemoteAPI
 import com.example.pokeitemdle.utils.ItemDetailsFormatter
 import org.json.JSONObject
 import android.text.InputType
+import android.view.inputmethod.EditorInfo
 import com.example.pokeitemdle.database.DatabaseHelper
 import java.util.Locale
 
@@ -65,10 +66,40 @@ class DescriptionActivity : AppCompatActivity() {
         loadingScreen = findViewById(R.id.loadingScreen)
         mainContent = findViewById(R.id.mainContent)
 
-        val descriptionTextView = findViewById<TextView>(R.id.descriptionTextView)
         val autoCompleteTextView = findViewById<AutoCompleteTextView>(R.id.PruebaTextView)
         val fetchButton = findViewById<Button>(R.id.fetchButton)
         val resultTextView = findViewById<TextView>(R.id.resultTextView)
+
+        var isActionPerformed = false
+
+        autoCompleteTextView.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE && !isActionPerformed) {
+                isActionPerformed = true
+
+                val adapter = autoCompleteTextView.adapter
+                if (adapter != null && adapter.count > 0) {
+                    val firstSuggestion = adapter.getItem(0) as? String
+
+                    if (!firstSuggestion.isNullOrEmpty() && autoCompleteTextView.text.toString() != firstSuggestion) {
+                        autoCompleteTextView.setText(firstSuggestion)
+                        autoCompleteTextView.setSelection(firstSuggestion.length) // Cursor al final
+                    }
+                }
+
+                autoCompleteTextView.dismissDropDown()
+                fetchButton.performClick()
+
+                // Resetear la bandera después de una breve pausa
+                autoCompleteTextView.postDelayed({
+                    isActionPerformed = false
+                }, 300)
+
+                true
+            } else {
+                false
+            }
+        }
+
 
         val remoteAPI = RemoteAPI()
 
@@ -116,7 +147,7 @@ class DescriptionActivity : AppCompatActivity() {
             }
         )
         setupAutoCompleteTextView(remoteAPI, autoCompleteTextView)
-        setupFetchButton(fetchButton, autoCompleteTextView, resultTextView, descriptionTextView, remoteAPI)
+        setupFetchButton(fetchButton, autoCompleteTextView, resultTextView, remoteAPI)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -297,7 +328,6 @@ class DescriptionActivity : AppCompatActivity() {
         fetchButton: Button,
         autoCompleteTextView: AutoCompleteTextView,
         resultTextView: TextView,
-        descriptionTextView: TextView,
         remoteAPI: RemoteAPI
     ) {
         fetchButton.setOnClickListener {
@@ -333,10 +363,16 @@ class DescriptionActivity : AppCompatActivity() {
                 } else {
                     Log.d("MainActivity", "User selected incorrect item: $selectedMove")
 
-                    if (userAttempts == 5) {
+                    if (userAttempts >= 5) {
                         val randomType = randomMoveDetails?.optJSONObject("type")?.optString("name", "Unknown") ?: "Desconocido"
                         val typeHint = "Pista: El tipo del movimiento es $randomType."
-                        descriptionTextView.text = typeHint
+                        hintCountdownTextView.text = typeHint
+                    }
+
+                    if(userAttempts >= 20){
+                        showLosingDialog()
+                        fetchButton.isEnabled = false
+                        gameOver = true
                     }
 
                     fetchMoveDetails(selectedMove, resultTextView, remoteAPI)
@@ -346,6 +382,22 @@ class DescriptionActivity : AppCompatActivity() {
             } else {
                 showToast("Por favor, selecciona un movimiento primero.")
             }
+        }
+    }
+
+    private fun showLosingDialog() {
+       runOnUiThread {
+            val dialog = AlertDialog.Builder(this)
+                .setTitle("¡Perdiste! El movimiento era $randomMove")
+                .setMessage("Vuelve a intentarlo.")
+                .setPositiveButton("OK") { _, _ ->
+                    // Reiniciar juego
+                    Log.d("MainActivity", "User clicked OK to restart the game")
+
+                    fetchRandomMoveDetails(randomMove ?: "", RemoteAPI())
+                }
+                .create()
+            dialog.show()
         }
     }
 
