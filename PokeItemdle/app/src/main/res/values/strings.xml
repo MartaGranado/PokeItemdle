@@ -1,61 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">PokeItemdle</string>
-    <string name="welcome_message">Bienvenido a PokeItemdle</string>
-    <string name="classic_button">Clasico</string>
-    <string name="descriptionButton">Descripcion</string>
-    <string name="toolbar_description">Barra de herramientas</string>
-    <string name="remaining_attempts">Intentos restantes: %d</string>
-    <string name="hint_select_object">Selecciona un objeto</string>
-    <string name="button_search">Buscar</string>
-    <string name="item_image_description">Imagen del Objeto</string>
-    <string name="loading_objects">Cargando objetos…</string>
+    <string name="welcome_message">Welcome to PokeItemdle</string>
+    <string name="classic_button">Classic</string>
+    <string name="descriptionButton">Description</string>
     <string name="hint_email" translatable="false">Email</string>
-    <string name="hint_password">Contraseña</string>
-    <string name="login_button">Iniciar sesión</string>
-    <string name="register_button">Registrarse</string>
-    <string name="guest_button">Continuar sin cuenta</string>
-    <string name="pista_disponible_en_5">Pista disponible en: %d</string>
-    <string name="intentos_restantes">Intentos restantes: %d</string>
-    <string name="name">Nombre</string>
-    <string name="category">Categoría</string>
-    <string name="cost">Coste</string>
-    <string name="fling_power">Poder de lanzamiento</string>
-    <string name="generation">Generación</string>
-    <string name="attributes">Atributos</string>
-    <string name="effects">Efectos</string>
-    <string name="unknown">Desconocido</string>
-    <string name="no_attributes">No hay atributos disponibles.</string>
-    <string name="no_effects">No hay efectos disponibles.</string>
-    <string name="no_found">No se encontraron objetos.</string>
-    <string name="complete">Por favor completa todos los campos.</string>
-    <string name="cancel">Cancelar</string>
-    <string name="Session_started">Sesión iniciada como </string>
-    <string name="toast_registered">Usuario registrado exitosamente.</string>
-    <string name="toast_user_exists">Error: el usuario ya existe.</string>
-    <string name="toast_logged_out">Sesión cerrada.</string>
-    <string name="spanish">Español</string>
-    <string name="english">Inglés</string>
-    <string name="french">Francés</string>
-    <string name="select_language">Selecciona un idioma.</string>
-    <string name="average_attempts">Tu número medio de intentos: %.2f</string>
-    <string name="not_enough_data">Aún no tienes suficientes datos para calcular un promedio.</string>
-    <string name="toast_must_log">Debes iniciar sesión para ver tu promedio de intentos.</string>
-    <string name="error_invalid_credentials">Credenciales inválidas. Inténtalo de nuevo.</string>
-    <string name="toast_maximum_attempts">Has alcanzado el número máximo de intentos.</string>
-    <string name="track_movement">Pista: El tipo del movimiento es </string>
-    <string name="wrong_attempt">Intento incorrecto. Sigue intentando. </string>
-    <string name="select_movement">Por favor, selecciona un movimiento primero.</string>
+    <string name="toolbar_description">Tool bar</string>
+    <string name="remaining_attempts">Tries left: %d</string>
+    <string name="hint_select_object">Select an object</string>
+    <string name="button_search">Search</string>
+    <string name="item_image_description">Object Image</string>
+    <string name="loading_objects">Loading objects…</string>
+    <string name="hint_password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
+    <string name="guest_button">Continue without an account</string>
+    <string name="pista_disponible_en_5">Track available at: %d</string>
+    <string name="intentos_restantes">Remaining attempts: %d</string>
+    <string name="name">Name</string>
+    <string name="category">Category</string>
+    <string name="cost">Cost</string>
+    <string name="fling_power">Fling Power</string>
+    <string name="generation">Generation</string>
+    <string name="attributes">Attributes</string>
+    <string name="effects">Effects</string>
+    <string name="unknown">Unknown</string>
+    <string name="no_attributes">No attributes available.</string>
+    <string name="no_effects">No effects available.</string>
+    <string name="no_found">No objects were found.</string>
+    <string name="complete">Please complete all fields.</string>
+    <string name="cancel">Cancel</string>
+    <string name="Session_started">Session started as </string>
+    <string name="toast_registered">User registered successfully.</string>
+    <string name="toast_user_exists">Error: the user already exists.</string>
+    <string name="toast_logged_out">Session closed.</string>
+    <string name="spanish">Spanish</string>
+    <string name="english">English</string>
+    <string name="french">French</string>
+    <string name="select_language">Select a language.</string>
+    <string name="average_attempts">Your average number of attempts: %.2f</string>
+    <string name="not_enough_data">You do not yet have enough data to calculate an average.</string>
+    <string name="toast_must_log">You must log in to view your average attempts.</string>
+    <string name="error_invalid_credentials">Invalid credentials. Try again.</string>
+    <string name="toast_maximum_attempts">You have reached the maximum number of attempts.</string>
+    <string name="track_movement">Hint: The type of the move is </string>
+    <string name="wrong_attempt">Incorrect attempt. Keep trying. </string>
+    <string name="select_movement">Please select a move first.</string>
     <string name="formatted_text">
-        Nombre: %1$s\n
-        Poder: %2$s %3$s\n
-        Exactitud: %4$s %5$s\n
-        Tipo: %6$s %7$s\n
-        Clase_Daño: %8$s %9$s\n
-        Descripción: %10$s %11$s\n
-        _____________________________\n
-        Intentos anteriores: %12$s
-    </string>
-
-
+    Name: %1$s\n
+    Power: %2$s %3$s\n
+    Accuracy: %4$s %5$s\n
+    Type: %6$s %7$s\n
+    Damage Class: %8$s %9$s\n
+    Description: %10$s %11$s\n
+    _____________________________\n
+    Previous attempts: %12$s
+</string>
 
 </resources>

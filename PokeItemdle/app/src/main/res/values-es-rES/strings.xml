@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="welcome_message">Bienvenido a PokeItemdle</string>
+    <string name="classic_button">Clasico</string>
+    <string name="descriptionButton">Descripcion</string>
+    <string name="toolbar_description">Barra de herramientas</string>
+    <string name="remaining_attempts">Intentos restantes: %d</string>
+    <string name="hint_select_object">Selecciona un objeto</string>
+    <string name="button_search">Buscar</string>
+    <string name="item_image_description">Imagen del Objeto</string>
+    <string name="loading_objects">Cargando objetos…</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="login_button">Iniciar sesión</string>
+    <string name="register_button">Registrarse</string>
+    <string name="guest_button">Continuar sin cuenta</string>
+    <string name="pista_disponible_en_5">Pista disponible en: %d</string>
+    <string name="intentos_restantes">Intentos restantes: %d</string>
+    <string name="name">Nombre</string>
+    <string name="category">Categoría</string>
+    <string name="cost">Coste</string>
+    <string name="fling_power">Poder de lanzamiento</string>
+    <string name="generation">Generación</string>
+    <string name="attributes">Atributos</string>
+    <string name="effects">Efectos</string>
+    <string name="unknown">Desconocido</string>
+    <string name="no_attributes">No hay atributos disponibles.</string>
+    <string name="no_effects">No hay efectos disponibles.</string>
+    <string name="no_found">No se encontraron objetos.</string>
+    <string name="complete">Por favor completa todos los campos.</string>
+    <string name="cancel">Cancelar</string>
+    <string name="Session_started">Sesión iniciada como </string>
+    <string name="toast_registered">Usuario registrado exitosamente.</string>
+    <string name="toast_user_exists">Error: el usuario ya existe.</string>
+    <string name="toast_logged_out">Sesión cerrada.</string>
+    <string name="spanish">Español</string>
+    <string name="english">Inglés</string>
+    <string name="french">Francés</string>
+    <string name="select_language">Selecciona un idioma.</string>
+    <string name="average_attempts">Tu número medio de intentos: %.2f</string>
+    <string name="not_enough_data">Aún no tienes suficientes datos para calcular un promedio.</string>
+    <string name="toast_must_log">Debes iniciar sesión para ver tu promedio de intentos.</string>
+    <string name="error_invalid_credentials">Credenciales inválidas. Inténtalo de nuevo.</string>
+    <string name="toast_maximum_attempts">Has alcanzado el número máximo de intentos.</string>
+    <string name="track_movement">Pista: El tipo del movimiento es </string>
+    <string name="wrong_attempt">Intento incorrecto. Sigue intentando. </string>
+    <string name="select_movement">Por favor, selecciona un movimiento primero.</string>
+    <string name="formatted_text">
+        Nombre: %1$s\n
+        Poder: %2$s %3$s\n
+        Exactitud: %4$s %5$s\n
+        Tipo: %6$s %7$s\n
+        Clase_Daño: %8$s %9$s\n
+        Descripción: %10$s %11$s\n
+        _____________________________\n
+        Intentos anteriores: %12$s
+    </string>
+
+
+
+</resources>

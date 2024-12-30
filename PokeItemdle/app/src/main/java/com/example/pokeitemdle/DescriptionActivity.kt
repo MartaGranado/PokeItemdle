@@ -368,8 +368,15 @@ class DescriptionActivity : AppCompatActivity() {
                     if (userAttempts >= 5) {
                         val randomType = randomMoveDetails?.optJSONObject("type")?.optString("name", "Unknown") ?: "Desconocido"
                         val typeHint = "Pista: El tipo del movimiento es $randomType."
-                        descriptionTextView.text = typeHint
+                        hintCountdownTextView.text = typeHint
                     }
+
+                    if(userAttempts >= 20){
+                        showLosingDialog()
+                        fetchButton.isEnabled = false
+                        gameOver = true
+                    }
+
 
                     fetchMoveDetails(selectedMove, resultTextView, remoteAPI)
                     showToast(getString(R.string.wrong_attempt))
