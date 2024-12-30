@@ -374,6 +374,12 @@ class MainActivity : AppCompatActivity() {
                                 else -> "fetchedCost" // Asegúrate de que "fetchedCost" sea una variable válida
                             }
 
+                            val flingComparison = when {
+                                flingPower < randomFlingPower -> "flingPower ^"
+                                flingPower > randomFlingPower -> "flingPower v"
+                                else -> "fetchedFlingPower" // Asegúrate de que "fetchedCost" sea una variable válida
+                            }
+
                             // Log para depuración antes de insertar en la base de datos
                             Log.d(
                                 "MainActivity",
@@ -388,7 +394,7 @@ class MainActivity : AppCompatActivity() {
                                 category = category,
                                 categoryCorrect = category == randomCategory,
                                 flingPower = flingPower.toString(), // Convierte flingPower a String
-                                flingPowerCorrect = flingPower == randomFlingPower,
+                                flingPowerCorrect = flingPower.toInt() == randomFlingPower,
                                 description = description,
                                 descriptionCorrect = description == randomItemDetails?.optString(
                                     "description",
@@ -583,7 +589,7 @@ class MainActivity : AppCompatActivity() {
     Nombre: $name
     Coste: $costComparison $costSymbol
     Categoría: $category $categorySymbol
-    Fling-power: $fetchedFlingPower $flingSymbol
+    Fling-power: $flingComparison $flingSymbol
     Descripción: $fetchedEffectEntries $descriptionSymbol
     _________________________
     Intentos anteriores: $previousTries
