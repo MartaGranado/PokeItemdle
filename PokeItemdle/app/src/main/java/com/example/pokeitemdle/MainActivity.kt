@@ -116,16 +116,6 @@ class MainActivity : AppCompatActivity() {
                             userAttempts = dbHelper.getAttemptsObject()
                             if (userAttempts > attemptsLeft) {
                                 attemptsLeft = 0
-                                val effectEntries = randomItemDetails?.let { details ->
-                                    details.optJSONArray("effect_entries")?.let { effects ->
-                                        (0 until effects.length()).joinToString("\n") { index ->
-                                            val effectText = effects.getJSONObject(index).optString("effect", getString(R.string.no_clue))
-                                            effectText.split(":").getOrNull(1)?.trim() ?: getString(R.string.no_clue)
-                                        }
-                                    } ?: getString(R.string.no_clue)
-                                } ?: getString(R.string.no_clue)
-                                val text = getString(R.string.Clue)+": $effectEntries"
-                                attemptsTextView.text = text
                             } else {
                                 attemptsLeft -= userAttempts
                             }
