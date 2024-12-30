@@ -61,7 +61,7 @@
     <string name="unsuccessful_login">¡Usuario o contraseña incorrecta!</string>
     <string name="successful_register">¡Registro exitoso!</string>
     <string name="unsuccessful_register"> ¡El usuario ya existe!</string>
-    <string name="no_account">¡Tu progreso no será gaurdado!</string>
+    <string name="no_account">¡Tu progreso no será guardado!</string>
     <string name="average_tries">Tu promedio de intentos</string>
     <string name="lost_game">¡Perdiste! El movimiento era: %s</string>
     <string name="try_again">¡Inténtalo de nuevo!</string>
