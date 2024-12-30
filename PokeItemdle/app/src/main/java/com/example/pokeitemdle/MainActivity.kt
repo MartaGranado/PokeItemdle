@@ -290,18 +290,18 @@ class MainActivity : AppCompatActivity() {
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         val emailInput = EditText(this).apply {
-            hint = "Correo Electrónico"
+            hint = getString(R.string.hint_email)
             inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
         }
         val passwordInput = EditText(this).apply {
-            hint = "Contraseña"
+            hint = getString(R.string.hint_password)
             inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
         }
         layout.addView(emailInput)
         layout.addView(passwordInput)
         builder.setView(layout)
 
-        builder.setPositiveButton("Iniciar") { _, _ ->
+        builder.setPositiveButton(getString(R.string.login_button)) { _, _ ->
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
             val passwordDb = password.hashCode()
@@ -310,10 +310,10 @@ class MainActivity : AppCompatActivity() {
             if (validUser) {
                 onLogin(email)
             } else {
-                showToast("Credenciales inválidas. Inténtalo de nuevo.")
+                showToast(getString(R.string.error_invalid_credentials))
             }
         }
-        builder.setNegativeButton("Cancelar") { dialog, _ -> dialog.cancel() }
+        builder.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
 
         builder.show()
     }

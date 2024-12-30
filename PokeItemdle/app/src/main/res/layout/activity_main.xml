@@ -23,6 +23,8 @@
         tools:context=".MainActivity">
 
         <!-- Contenido principal -->
+
+        <!-- Pantalla de carga -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mainContent"
             android:layout_width="match_parent"
@@ -31,11 +33,12 @@
             <!-- Caja de intentos restantes -->
 
             <!-- Botón de buscar -->
+
             <TextView
                 android:id="@+id/attemptsTextView"
-                android:layout_width="261dp"
+                android:layout_width="247dp"
                 android:layout_height="117dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/remaining_attempts"
                 android:textSize="20sp"
@@ -66,13 +69,13 @@
                 android:id="@+id/fetchButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/button_search"
-                app:layout_constraintTop_toBottomOf="@id/PruebaTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/resultTextView"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:text="@string/button_search"
+                app:layout_constraintBottom_toTopOf="@id/resultTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/PruebaTextView"
                 tools:ignore="NotSibling" />
 
             <!-- ScrollView para hacer desplazable el resultTextView -->
@@ -82,12 +85,13 @@
                 android:layout_width="243dp"
                 android:layout_height="241dp"
                 android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginBottom="200dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.017"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fetchButton"
+                app:layout_constraintTop_toBottomOf="@+id/fetchButton"
                 app:layout_constraintVertical_bias="0.0">
 
                 <!-- TextView para mostrar resultados -->
@@ -106,13 +110,12 @@
                 android:contentDescription="@string/item_image_description"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.636"
+                app:layout_constraintHorizontal_bias="0.69"
                 app:layout_constraintStart_toEndOf="@+id/scrollView2"
                 app:layout_constraintTop_toBottomOf="@+id/PruebaTextView"
-                app:layout_constraintVertical_bias="0.186" />
+                app:layout_constraintVertical_bias="0.528" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Pantalla de carga -->
         <include
             android:id="@+id/loadingScreen"
             layout="@layout/loading_screen"
