@@ -15,7 +15,7 @@
     <string name="login_button">Login</string>
     <string name="register_button">Register</string>
     <string name="guest_button">Continue without an account</string>
-    <string name="pista_disponible_en_5">Track available at: %d</string>
+    <string name="pista_disponible_en_5">Clue available at: %d</string>
     <string name="intentos_restantes">Remaining attempts: %d</string>
     <string name="name">Name</string>
     <string name="category">Category</string>
@@ -70,4 +70,18 @@
     <string name="winning_dialog">You made it in %d tries</string>
     <string name="start">Start</string>
     <string name="no_description">No description available.</string>
+    <string name="Clue">Clue</string>
+    <string name="no_clue">No clue available.</string>
+    <string name="error_data">Error saving data to the database.</string>
+    <string name="select_object">Please select an object first.</string>
+    <string name="formatted_text_description">
+    Name: %1$s\n
+    Cost: %2$s %3$s\n
+    Category: %4$s %5$s\n
+    Fling-power: %6$d %7$s\n
+    Description: %8$s %9$s\n
+    _____________________________\n
+    Previous attempts: %10$s
+</string>
+
 </resources>

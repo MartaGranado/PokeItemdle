@@ -119,12 +119,12 @@ class MainActivity : AppCompatActivity() {
                                 val effectEntries = randomItemDetails?.let { details ->
                                     details.optJSONArray("effect_entries")?.let { effects ->
                                         (0 until effects.length()).joinToString("\n") { index ->
-                                            val effectText = effects.getJSONObject(index).optString("effect", "No effect available.")
-                                            effectText.split(":").getOrNull(1)?.trim() ?: "No clue available."
+                                            val effectText = effects.getJSONObject(index).optString("effect", getString(R.string.no_clue))
+                                            effectText.split(":").getOrNull(1)?.trim() ?: getString(R.string.no_clue)
                                         }
-                                    } ?: "No clues available."
-                                } ?: "No clues available."
-                                val text = "Pista: $effectEntries"
+                                    } ?: getString(R.string.no_clue)
+                                } ?: getString(R.string.no_clue)
+                                val text = getString(R.string.Clue)+": $effectEntries"
                                 attemptsTextView.text = text
                             } else {
                                 attemptsLeft -= userAttempts
@@ -140,7 +140,7 @@ class MainActivity : AppCompatActivity() {
                         loadingScreen.visibility = View.GONE
                         mainContent.visibility = View.VISIBLE
                     } else {
-                        showToast("No se encontraron objetos.")
+                        showToast(getString(R.string.no_found))
                     }
                 }
             },
@@ -160,7 +160,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         Log.d("MainActivity", "onCreateOptionsMenu() called")
         menuInflater.inflate(R.menu.main_menu, menu)
-        menu?.findItem(R.id.action_login)?.title = userEmail ?: "Login"
+        menu?.findItem(R.id.action_login)?.title = userEmail ?: getString(R.string.login_button)
         menu?.findItem(R.id.action_register)?.isVisible = userEmail == null // Hide "Registrar" if logged in
         return true
     }
@@ -360,7 +360,7 @@ class MainActivity : AppCompatActivity() {
 
                         // Asegurarse de que randomCost no sea nulo, se establece en 0 si es nulo
                         val randomCost = randomItemDetails?.optInt("cost", 0) ?: 0
-                        val randomCategory = randomItemDetails?.optJSONObject("category")?.optString("name", "Unknown") ?: "Unknown"
+                        val randomCategory = randomItemDetails?.optJSONObject("category")?.optString("name", getString(R.string.unknown)) ?: getString(R.string.unknown)
                         val randomFlingPower = randomItemDetails?.optInt("fling_power", 0) ?: 0
 
                         givenNameRecieveDetails(
@@ -369,8 +369,8 @@ class MainActivity : AppCompatActivity() {
                         ) { cost, category, flingPower, description ->
                             // Asegúrate de que cost es un valor Int no nulo, y compararlo con randomCost
                             val costComparison = when {
-                                cost < randomCost -> "cost ^"
-                                cost > randomCost -> "cost v"
+                                cost < randomCost -> getString(R.string.cost) + " ^"
+                                cost > randomCost -> getString(R.string.cost) + " v"
                                 else -> "fetchedCost" // Asegúrate de que "fetchedCost" sea una variable válida
                             }
 
@@ -411,7 +411,7 @@ class MainActivity : AppCompatActivity() {
                         val success = dbHelper.updateGameStats(userEmail!!, totalAttempts)
                         if (!success) {
                             Log.e("MainActivity", "Error saving game stats to the database")
-                            showToast("Error al guardar los datos en la base de datos.")
+                            showToast(getString(R.string.error_data))
                         }
 
                         // Incrementar el total de juegos
@@ -423,7 +423,7 @@ class MainActivity : AppCompatActivity() {
                     runOnUiThread {
                         showWinningDialog(userAttempts) // Ensure this is on the UI thread
                     }
-                    showToast("¡Felicidades! Has acertado.")
+                    showToast(getString(R.string.you_won))
                     fetchButton.isEnabled = false // Deshabilitar botón tras acertar
                     gameOver = true
                 } else {
@@ -442,20 +442,20 @@ class MainActivity : AppCompatActivity() {
                             details.optJSONArray("effect_entries")?.let { effects ->
                                 (0 until effects.length()).joinToString("\n") { index ->
                                     val effectText = effects.getJSONObject(index).optString("effect", "No effect available.")
-                                    effectText.split(":").getOrNull(1)?.trim() ?: "No clue available."
+                                    effectText.split(":").getOrNull(1)?.trim() ?: getString(R.string.no_clue)
                                 }
-                            } ?: "No clues available."
-                        } ?: "No clues available."
-                        val text = "Pista: $effectEntries"
+                            } ?: getString(R.string.no_clue)
+                        } ?: getString(R.string.no_clue)
+                        val text = getString(R.string.Clue) + ": $effectEntries"
                         attemptsTextView.text = text
                         fetchItemDetails(selectedItem, resultTextView, itemImageView, remoteAPI)
-                        showToast("Intento incorrecto. Sigue intentando.")
+                        showToast(getString(R.string.try_again))
                     }
                 }
                 // Limpiar el texto en AutoCompleteTextView
                 autoCompleteTextView.setText("")
             } else {
-                showToast("Por favor, selecciona un objeto primero.")
+                showToast(getString(R.string.select_object))
             }
         }
     }
@@ -579,15 +579,15 @@ class MainActivity : AppCompatActivity() {
         val flingSymbol = if (fetchedFlingPower == randomFlingPower) "✅" else "❌"
         val descriptionSymbol = if (fetchedEffectEntries == randomEffectEntries) "✅" else "❌"
 
-        val formattedText = """
-    Nombre: $name
-    Coste: $costComparison $costSymbol
-    Categoría: $category $categorySymbol
-    Fling-power: $fetchedFlingPower $flingSymbol
-    Descripción: $fetchedEffectEntries $descriptionSymbol
-    _________________________
-    Intentos anteriores: $previousTries
-    """.trimIndent()
+        val formattedText = getString(
+            R.string.formatted_text_description,
+            name,
+            costComparison, costSymbol,
+            category, categorySymbol,
+            fetchedFlingPower, flingSymbol,
+            fetchedEffectEntries, descriptionSymbol,
+            previousTries
+        )
 
         val spannable = SpannableString(formattedText)
 
@@ -653,8 +653,8 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity", "Showing winning dialog with $attempts attempts")
         runOnUiThread {
             val dialog = AlertDialog.Builder(this)
-                .setTitle("¡Ganaste!")
-                .setMessage("Lo lograste en $attempts intentos.")
+                .setTitle(R.string.you_won)
+                .setMessage(getString(R.string.winning_dialog))
                 .setPositiveButton("OK") { _, _ ->
                     // Reiniciar juego
                     Log.d("MainActivity", "User clicked OK to restart the game")

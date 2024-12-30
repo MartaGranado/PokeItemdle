@@ -69,4 +69,17 @@
     <string name="winning_dialog">Has tenido éxito en %d intentos</string>
     <string name="start">Iniciar</string>
     <string name="no_description">Descripción no disponible.</string>
+    <string name="Clue">Pista</string>
+    <string name="no_clue">Pista no disponible</string>
+    <string name="error_data">Error al guardar los datos en la base de datos.</string>
+    <string name="select_object">Por favor, selecciona una objeto.</string>
+    <string name="formatted_text_description">
+    Nombre: %1$s\n
+    Coste: %2$s %3$s\n
+    Categoría: %4$s %5$s\n
+    Poder-Lanzamiento: %6$d %7$s\n
+    Descripción: %8$s %9$s\n
+    _____________________________\n
+    Intentos anteriores: %10$s
+</string>
 </resources>
