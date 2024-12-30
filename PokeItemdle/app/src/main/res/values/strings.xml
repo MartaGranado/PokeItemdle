@@ -83,5 +83,6 @@
     _____________________________\n
     Previous attempts: %10$s
 </string>
+    <string name="change_language">Change language</string>
 
 </resources>

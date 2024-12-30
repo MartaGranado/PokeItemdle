@@ -1,19 +1,28 @@
 package com.example.pokeitemdle
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pokeitemdle.R
 import com.example.pokeitemdle.database.DatabaseHelper
+import java.util.Locale
 
 class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
+
+        val changeLanguageButton: Button = findViewById(R.id.changeLanguageButton)
+        changeLanguageButton.setOnClickListener {
+            showLanguageDialog()
+        }
+
         val db = DatabaseHelper(this)
         db.dropMove()
         db.dropObjectTable()
@@ -56,6 +65,33 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this, R.string.no_account, Toast.LENGTH_SHORT).show()
             navigateToPokeItemdle("") // User is a guest
         }
+    }
+
+    private fun showLanguageDialog() {
+        val languages = arrayOf(getString(R.string.spanish), getString(R.string.english), getString(R.string.french)) // Los idiomas disponibles
+        AlertDialog.Builder(this)
+            .setTitle(R.string.select_language)
+            .setItems(languages) { _, which ->
+                when (which) {
+                    0 -> setLocale("es") // Cambiar a Español
+                    1 -> setLocale("en") // Cambiar a Inglés
+                    2 -> setLocale("fr") // Cambiar a Francés
+                }
+            }
+            .create()
+            .show()
+    }
+
+    private fun setLocale(languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+
+        val config = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+
+        // Reinicia la actividad para aplicar los cambios
+        recreate()
     }
 
     // This method will navigate to PokeItemdleActivity and pass whether the user is logged in
